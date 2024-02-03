@@ -13,6 +13,15 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+typedef struct s_display
+{
+	void	*mlx;
+	void	*win_ptr;
+	int		win_x;
+	int		win_y;
+	char	**map;
+}			t_dis;
+
 int main(void);
 
 #endif
