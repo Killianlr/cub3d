@@ -1,6 +1,12 @@
 
 NAME = cub3d
 
+LIBFT = libft.a
+
+LIBFT_DIR = libft
+
+LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
+
 SOURCES = main.c \
 
 OBJECTS = $(SOURCES:.c=.o)
@@ -10,16 +16,19 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -Iminilibx-linux
 
 $(NAME): $(OBJECTS)
+		make -C libft
 		make -C minilibx-linux
-		$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) minilibx-linux/libmlx.a $(OPENGL)
+		$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) minilibx-linux/libmlx.a $(OPENGL) $(LIB)
 
 all: $(NAME)
 
 clean: 
 		rm -f $(OBJECTS)
+		make clean -C libft
 
 fclean: clean
 		rm -f $(NAME)
+		make fclean -C libft
 
 re: clean all
 
