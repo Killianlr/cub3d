@@ -24,9 +24,11 @@ typedef struct s_image
 
 typedef struct s_mpc
 {
-	void	*player;
-	int		x;
-	int		y;
+	int		pos_x;
+	int		pos_y;
+	void	*texture;
+	int		tex_x;
+	int		tex_y;
 }			t_mpc;
 
 typedef struct s_display

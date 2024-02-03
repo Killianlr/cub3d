@@ -6,8 +6,8 @@ int main(void)
     t_dis   display;
 
 	display.map = get_map();
-    display.win_x = 900;
-    display.win_y = 675;
+    display.win_x = 640;
+    display.win_y = 384;
     display.mlx = mlx_init();
 	create_img(&display);
     display.win_ptr = mlx_new_window(display.mlx, display.win_x, display.win_y, "cub3d");
