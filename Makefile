@@ -10,6 +10,9 @@ LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 SOURCES = main.c \
 		end.c \
 		input.c \
+		map.c \
+		display.c \
+
 
 OBJECTS = $(SOURCES:.c=.o)
 
