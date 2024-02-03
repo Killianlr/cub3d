@@ -8,6 +8,8 @@ LIBFT_DIR = libft
 LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 
 SOURCES = main.c \
+		end.c \
+		input.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

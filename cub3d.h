@@ -24,5 +24,8 @@ typedef struct s_display
 }			t_dis;
 
 int main(void);
+int		ft_end(t_dis *display);
+int		ft_input(int keysym, t_dis *dispaly);
+int		handle_no_event(void *data);
 
 #endif
