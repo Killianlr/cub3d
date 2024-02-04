@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:08 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/04 17:31:23 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:40:54 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	display_mpc(t_dis *display)
 			if (display->map[r][c] == 'P')
 				mlx_put_image_to_window(display->mlx, display->win_ptr,
 					display->mpc.texture,
-					display->mpc.pos_x , display->mpc.pos_y);
+					(display->mpc.pos_x * 64) , (display->mpc.pos_y * 64));
 			c++;
 		}
 		c = 0;
@@ -93,8 +93,8 @@ int	find_mpc_pos(t_dis *display)
 		{
 			if (display->map[r][c] == 'P')
 			{
-				display->mpc.pos_x = (r * 4 * display->mpc.tex_x) + 24;
-				display->mpc.pos_y = (c * 4 * display->mpc.tex_y) + 24;
+				display->mpc.pos_x = r + 0.5;
+				display->mpc.pos_y = c + 0.5;
 			}
 			c++;
 		}

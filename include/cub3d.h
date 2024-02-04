@@ -24,8 +24,8 @@ typedef struct s_image
 
 typedef struct s_mpc
 {
-	int		pos_x;
-	int		pos_y;
+	float	pos_x;
+	float	pos_y;
 	void	*texture;
 	int		tex_x;
 	int		tex_y;
