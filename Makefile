@@ -7,12 +7,9 @@ LIBFT_DIR = libft
 
 LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 
-SOURCES = main.c \
-		end.c \
-		input.c \
-		map.c \
-		display.c \
+SRCS = main end input map display 
 
+SOURCES = $(addsuffix .c, $(addprefix srcs/, $(SRCS))) \
 
 OBJECTS = $(SOURCES:.c=.o)
 
