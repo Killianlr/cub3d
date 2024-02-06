@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/06 15:16:27 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:52:44 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
 
 int	handle_no_event(void *data)
 {
@@ -19,22 +18,19 @@ int	handle_no_event(void *data)
 	return (0);
 }
 
-int	floor_or_wall(t_dis *display, int x, int y)
+int	floor_or_wall(t_dis *display, float x, float y)
 {
 	int	r;
 	int	c;
 
-	r = x / 64;
-	c = y / 64;
-		printf("x = %d => r = %d\ny = %d => c = %d\n", x, r, y, c);
+	// printf("x = %f & y = %f\n", x, y);
+	r = (int) y;
+	c = (int) x;
 	if (display->map[r][c] == '0' || display->map[r][c] == 'P')
-	{
-		// printf("floor\n");
 		return (0);
-	}
 	else if (display->map[r][c] == '1')
 	{
-		// printf("wall\n");
+		// printf("r%d c%d ==> WALL\n", r, c);
 		return (1);	
 	}
 	return (-1);
@@ -42,29 +38,33 @@ int	floor_or_wall(t_dis *display, int x, int y)
 
 void	mpc_go_up(t_dis *display, t_p *player)
 {
-	player->posx += 0.2;
-	printf("player->posx= %f\n", player->posx);
+	player->posx += cos(player->angle) / 10;
+	player->posy += sin(player->angle) / 10;
+	// printf("player->posx= %f\n", player->posx);
 	render_3d(display, player);
 }
 
 void	mpc_go_down(t_dis *display, t_p *player)
 {
-	player->posx -= 0.2;
-	printf("player->posx= %f\n", player->posx);
+	player->posx -= cos(player->angle) / 10;
+	player->posy -= sin(player->angle) / 10;
+	// printf("player->posx= %f\n", player->posx);
 	render_3d(display, player);
 }
 
 void	mpc_go_left(t_dis *display, t_p *player)
 {
-	player->posy -= 0.2;
-	printf("player->posy= %f\n", player->posy);
+	player->posx += cos(player->angle + (M_PI/ 2)) / 10;
+	player->posy += sin(player->angle + (M_PI/ 2)) / 10;
+	// printf("player->posy= %f\n", player->posy);
 	render_3d(display, player);
 }
 
 void	mpc_go_right(t_dis *display, t_p *player)
 {
-	player->posy += 0.2;
-	printf("player->posy= %f\n", player->posy);
+	player->posx += cos(player->angle - (M_PI/ 2)) / 10;
+	player->posy += sin(player->angle - (M_PI/ 2)) / 10;
+	// printf("player->posy= %f\n", player->posy);
 	render_3d(display, player);
 }
 
