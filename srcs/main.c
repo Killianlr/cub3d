@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/06 15:16:14 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:56:11 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ float	get_angle(char c)
 	return (0);
 }
 
-void    find_player_pos(t_p *player, t_dis *display)
+void    find_player_pos(t_p *player, char **map)
 {
     int x;
     int y;
@@ -33,15 +33,15 @@ void    find_player_pos(t_p *player, t_dis *display)
     
     x = 0;
     i = 0;
-    while (display->map[x])
+    while (map[x])
     {
         y = 0;
-        while (display->map[x][y])
+        while (map[x][y])
         {
-            if (display->map[x][y] != '1' && display->map[x][y] != '0')
+            if (map[x][y] != '1' && map[x][y] != '0')
 			{
                 i = 1;
-				player->angle = get_angle(display->map[x][y]);
+				player->angle = get_angle(map[x][y]);
 			}
             if (i)
                 break;
@@ -78,8 +78,46 @@ void	draw_line(t_dis *display, int pix, int y1, int y2)
 	}
 }
 
-void    render_3d(t_dis *display, t_p *player)
+void	set_raycasting(t_ray *ray, t_p *player)
 {
+	ray->ratio = (pix - (RESX / 2) / (RESX / 2));
+	ray->dirx = cos(player->angle) / 2 + cos(player->angle - (M_PI / 2)) * ray->ratio;
+	ray->dirx = sin(player->angle) / 2 + sin(player->angle - (M_PI / 2)) * ray->ratio;
+	ray->mapx = floor(player->posx);
+	ray->mapy = floor(player->posy);
+	ray->deltadistx = sqrt(1 + (pow(ray->diry, 2) / pow(ray->dirx, 2)));
+	ray->deltadisty = sqrt(1 + (pow(ray->dirx, 2) / pow(ray->diry, 2)));
+	check_dir
+
+	/*---------FINIR DE METTRE AU PROPRE---------*/
+
+	
+	if (dirx < 0)
+	{
+		stepx = -1;
+		sidedistx = (player->posx - mapx) * deltadistx;
+	}
+	else
+	{
+		stepx = 1;
+		sidedistx = (mapx + 1 - player->posx) * deltadistx;
+	}
+	if (diry < 0)
+	{
+		stepy = -1;
+		sidedisty = (player->posy - mapy) * deltadisty;
+	}
+	else
+	{
+		stepy = 1;
+		sidedisty = (mapy + 1 - player->posy) * deltadisty;
+	}
+}
+
+void    render_3d(t_g *game)
+{
+	t_ray	ray;
+
     double pix;
     double   ratio;
 	float		dirx;
@@ -101,6 +139,7 @@ void    render_3d(t_dis *display, t_p *player)
     pix = 0;
     while (pix <= RESX)
     {
+		set_raycasting(&ray, game->player);
 		ratio = (pix - (RESX / 2)) / (RESX / 2);
 		dirx = cos(player->angle) / 2 + cos(player->angle - (M_PI / 2)) * ratio;
 		diry = sin(player->angle) / 2 + sin(player->angle - (M_PI / 2)) * ratio;
@@ -159,23 +198,25 @@ void    render_3d(t_dis *display, t_p *player)
     }
 }
 
+void	set_mlx(t_mlx *mlx)
+{
+	mlx->mlx_ptr = mlx_init();
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, RESX, RESY, "cub3d");
+}
+
 int main(void)
 {
-    t_dis   display;
-    t_p     *player;
+	t_g		game;
+	t_mlx	mlx;
 
-	player = (t_p *)malloc(sizeof(t_p));
-	display.map = get_map();
-    display.mlx = mlx_init();
-    display.win_ptr = mlx_new_window(display.mlx, RESX, RESY, "cub3d");
-    find_player_pos(player, &display);
-	display.player = player;
-    mlx_loop_hook(display.mlx, &handle_no_event, &display);
-    mlx_hook(display.win_ptr, ClientMessage, NoEventMask, ft_end, &display);
-    mlx_key_hook(display.win_ptr, &ft_input, &display);
-	printf("player->posx %f\n", player->posx);
-	printf("player->posy %f\n", player->posy);
-    render_3d(&display, player);
-    mlx_loop(display.mlx);
+	game.map = get_map();
+	game.player = (t_p *)malloc(sizeof(t_p));
+	set_mlx(&mlx);
+    find_player_pos(game.player, game.map);
+    mlx_loop_hook(mlx.mlx_ptr, &handle_no_event, &game.player);
+    mlx_hook(mlx.win_ptr, ClientMessage, NoEventMask, ft_end, game.player);
+    mlx_key_hook(mlx.win_ptr, &ft_input, game.player);
+    render_3d(&game);
+    mlx_loop(mlx.mlx_ptr);
     return (0);
 }

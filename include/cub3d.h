@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/06 15:03:34 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:45:44 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,23 @@ typedef struct s_p
 	int		fov;
 }			t_p;
 
-typedef struct s_display
+typedef struct s_mlx
 {
-	void	*mlx;
+	void	*mlx_ptr;
 	void	*win_ptr;
-	int		win_x;
-	int		win_y;
-	char	**map;
-	t_img	img;
-	t_mpc	mpc;
+}			t_mlx;
+
+typedef struct s_ray
+{
+
+}				t_ray;
+
+typedef struct s_game
+{
 	t_p		*player;
-}			t_dis;
+	t_ray	ray;
+	char	**map;
+}				t_g;
 
 int 	main(void);
 int		ft_end(t_dis *display);
