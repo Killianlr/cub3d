@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/04 17:31:15 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:16:27 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,60 +40,64 @@ int	floor_or_wall(t_dis *display, int x, int y)
 	return (-1);
 }
 
-void	mpc_go_up(t_dis *display)
+void	mpc_go_up(t_dis *display, t_p *player)
 {
-	if (floor_or_wall(display, display->mpc.pos_x, display->mpc.pos_y - 8) == 1)
-		return ;
-	else
-		display->mpc.pos_y -= 8;
-	render_map(display);
+	player->posx += 0.2;
+	printf("player->posx= %f\n", player->posx);
+	render_3d(display, player);
 }
 
-void	mpc_go_left(t_dis *display)
+void	mpc_go_down(t_dis *display, t_p *player)
 {
-	if (floor_or_wall(display, display->mpc.pos_x - 8, display->mpc.pos_y) == 1)
-		return ;
-	else
-		display->mpc.pos_x -= 8;
-	render_map(display);
+	player->posx -= 0.2;
+	printf("player->posx= %f\n", player->posx);
+	render_3d(display, player);
 }
 
-void	mpc_go_down(t_dis *display)
+void	mpc_go_left(t_dis *display, t_p *player)
 {
-	if (floor_or_wall(display, display->mpc.pos_x, display->mpc.pos_y + 24) == 1)
-		return ;
-	else
-		display->mpc.pos_y += 8;
-	render_map(display);
+	player->posy -= 0.2;
+	printf("player->posy= %f\n", player->posy);
+	render_3d(display, player);
 }
 
-void	mpc_go_right(t_dis *display)
+void	mpc_go_right(t_dis *display, t_p *player)
 {
-	if (floor_or_wall(display, display->mpc.pos_x + 24, display->mpc.pos_y) == 1)
-		return ;
-	else
-		display->mpc.pos_x += 8;
-	render_map(display);
+	player->posy += 0.2;
+	printf("player->posy= %f\n", player->posy);
+	render_3d(display, player);
+}
+
+void	mpc_turn_left(t_dis *display, t_p *player)
+{
+	player->angle += 0.2;
+	printf("player->angle = %f\n", player->angle);
+	render_3d(display, player);
+}
+
+void	mpc_turn_right(t_dis *display, t_p *player)
+{
+	player->angle -= 0.2;
+	printf("player->angle = %f\n", player->angle);
+	render_3d(display, player);
 }
 
 int	ft_input(int keysym, t_dis *display)
 {
-	// bool key;
-
-	// key = false;
 	if (keysym == XK_Escape)
 		ft_end(display);
-	if (keysym == XK_z)
-	{
-		// printf("UP\n");
-		mpc_go_up(display);
-	}
-	if (keysym == XK_q)
-		mpc_go_left(display);
+	if (keysym == XK_w)
+		mpc_go_up(display, display->player);
+	if (keysym == XK_a)
+		mpc_go_left(display, display->player);
 	if (keysym == XK_s)
-		mpc_go_down(display);
+		mpc_go_down(display, display->player);
 	if (keysym == XK_d)
-		mpc_go_right(display);
+		mpc_go_right(display, display->player);
+	if (keysym == 65363)
+		mpc_turn_right(display, display->player);
+	if (keysym == 65361)
+		mpc_turn_left(display, display->player);
 	return (0);
 }
 
