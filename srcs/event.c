@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/07 14:44:36 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/02/07 15:45:13 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,19 @@ void	mpc_go_right(t_g *game)
 
 void	mpc_turn_left(t_g *game)
 {
-	game->player->angle += 0.2;
+	
+	game->player->angle += M_PI / 12;
+	if (game->player->angle >= 2 * M_PI)
+		game->player->angle = 0;
 	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_turn_right(t_g *game)
 {
-	game->player->angle -= 0.2;
+	game->player->angle -= M_PI / 12;
+	if (game->player->angle <= 0)
+		game->player->angle = 2 * M_PI;
 	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
 }
