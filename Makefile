@@ -7,7 +7,7 @@ LIBFT_DIR = libft
 
 LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 
-SRCS = main end input map display 
+SRCS = main end event map display raycasting utiles
 
 SOURCES = $(addsuffix .c, $(addprefix srcs/, $(SRCS))) \
 

@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/06 15:45:44 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:27:54 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@
 
 # define RESX 1200
 # define RESY 900
+# define NORTH M_PI
+# define EAST M_PI / 2
+# define SOUTH 0
+# define WEST 3 * M_PI / 2
+
+typedef	struct s_minimap
+{
+	int		posx;
+	int		posy;
+	int		deltax1;
+	int		deltay1;
+	int		deltax2;
+	int		deltay2;
+}				t_mm;
+
 
 typedef struct s_image
 {
@@ -62,23 +77,60 @@ typedef struct s_mlx
 
 typedef struct s_ray
 {
-
+	double   ratio;
+	float		dirx;
+	float		diry;
+	float		mapx;
+	float		mapy;
+	float	deltadistx;
+	float	deltadisty;
+	float		stepx;
+	float		stepy;
+	float	sidedistx;
+	float	sidedisty;
+	int		side;
+	float	perpualldist;
 }				t_ray;
 
 typedef struct s_game
 {
 	t_p		*player;
 	t_ray	ray;
+	t_mlx	mlx;
 	char	**map;
 }				t_g;
 
+/*--------------main.c--------------*/
+
 int 	main(void);
-int		ft_end(t_dis *display);
-int		ft_input(int keysym, t_dis *dispaly);
+
+/*--------------end.c--------------*/
+
+int		ft_end(t_mlx *mlx, t_p *player);
+
+/*--------------event.c--------------*/
+
+int		ft_input(int keysym, t_g *game);
 int		handle_no_event(void *data);
+
+/*--------------map.c--------------*/
+
 char	**get_map(void);
-void	create_img(t_dis *display);
-int		render_map(t_dis *display);
-void    render_3d(t_dis *display, t_p *player);
+
+/*--------------utiles.c--------------*/
+
+void    find_player_pos(t_p *player, char **map);
+int		create_trgb(int t, int r, int g, int b);
+void	set_mlx(t_mlx *mlx);
+
+/*--------------raycasting.c--------------*/
+
+void    render_3d(t_g *game, t_mlx *mlx);
+
+
+
+
+// void	create_img(t_dis *display);
+// int		render_map(t_dis *display);
 
 #endif

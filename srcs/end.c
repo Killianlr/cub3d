@@ -6,17 +6,18 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/04 17:31:19 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:11:25 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	ft_end(t_dis *display)
+int	ft_end(t_mlx *mlx, t_p *player)
 {
-	mlx_destroy_window(display->mlx, display->win_ptr);
-	mlx_destroy_display(display->mlx);
-	free(display->mlx);
+	free(player);
+	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+	mlx_destroy_display(mlx->mlx_ptr);
+	free(mlx->mlx_ptr);
 	exit(0);
 	return (0);
 }
