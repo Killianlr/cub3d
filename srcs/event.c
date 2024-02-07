@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/07 12:19:13 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:44:36 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,70 +19,65 @@ int	handle_no_event(void *data)
 	return (0);
 }
 
-// int	floor_or_wall(t_dis *display, int x, int y)
-// {
-// 	int	r;
-// 	int	c;
-
-// 	r = x / 64;
-// 	c = y / 64;
-// 		printf("x = %d => r = %d\ny = %d => c = %d\n", x, r, y, c);
-// 	if (display->map[r][c] == '0' || display->map[r][c] == 'P')
-// 	{
-// 		// printf("floor\n");
-// 		return (0);
-// 	}
-// 	else if (display->map[r][c] == '1')
-// 	{
-// 		// printf("wall\n");
-// 		return (1);	
-// 	}
-// 	return (-1);
-// }
-
 void	mpc_go_up(t_g *game)
 {
-	game->player->posx += cos(game->player->angle) / 10;
-	game->player->posy += sin(game->player->angle) / 10;
-	printf("player->posx= %f\n", game->player->posx);
+	if (collision(game, game->player->posx + (cos(game->player->angle) / 10)
+		, game->player->posy + (sin(game->player->angle) / 10)))
+	{
+		game->player->posx += cos(game->player->angle) / 10;
+		game->player->posy += sin(game->player->angle) / 10;
+	}
+	// printf("player->posx= %f\n", game->player->posx);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_go_down(t_g *game)
 {
-	game->player->posx -= cos(game->player->angle) / 10;
-	game->player->posy -= sin(game->player->angle) / 10;
-	printf("player->posx= %f\n", game->player->posx);
+	if (collision(game, game->player->posx - (cos(game->player->angle) / 10)
+		, game->player->posy - (sin(game->player->angle) / 10)))
+	{
+		game->player->posx -= cos(game->player->angle) / 10;
+		game->player->posy -= sin(game->player->angle) / 10;
+	}
+	// printf("player->posx= %f\n", game->player->posx);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_go_left(t_g *game)
 {
-	game->player->posx += cos(game->player->angle + (M_PI / 2)) / 10;
-	game->player->posy += sin(game->player->angle + (M_PI / 2)) / 10;
-	printf("player->posy= %f\n", game->player->posy);
+	if (collision(game, game->player->posx + (cos(game->player->angle + (M_PI / 2)) / 10)
+		, game->player->posy + (sin(game->player->angle + (M_PI / 2)) / 10)))
+	{
+		game->player->posx += cos(game->player->angle + (M_PI / 2)) / 10;
+		game->player->posy += sin(game->player->angle + (M_PI / 2)) / 10;
+	}
+	// printf("player->posy= %f\n", game->player->posy);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_go_right(t_g *game)
 {
-	game->player->posx += cos(game->player->angle - (M_PI / 2)) / 10;
-	game->player->posy += sin(game->player->angle - (M_PI / 2)) / 10;
-	printf("player->posy= %f\n", game->player->posy);
+	if (collision(game, game->player->posx + (cos(game->player->angle - (M_PI / 2)) / 10)
+		, game->player->posy + (sin(game->player->angle - (M_PI / 2)) / 10)))
+	{
+		game->player->posx += cos(game->player->angle - (M_PI / 2)) / 10;
+		game->player->posy += sin(game->player->angle - (M_PI / 2)) / 10;
+	}
+	// printf("player->posy= %f\n", game->player->posy);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_turn_left(t_g *game)
 {
 	game->player->angle += 0.2;
-	printf("player->angle = %f\n", game->player->angle);
+	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
 }
 
 void	mpc_turn_right(t_g *game)
 {
 	game->player->angle -= 0.2;
-	printf("player->angle = %f\n", game->player->angle);
+	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
 }
 

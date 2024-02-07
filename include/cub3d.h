@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/07 13:27:54 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:01:19 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ void	set_mlx(t_mlx *mlx);
 
 void    render_3d(t_g *game, t_mlx *mlx);
 
+/*--------------collision.c--------------*/
+
+int		collision(t_g *game, float x, float y);
+void	print_map(char **map);
 
 
 
