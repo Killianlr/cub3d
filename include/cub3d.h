@@ -32,6 +32,10 @@
 # define EAST M_PI / 2
 # define SOUTH 0
 # define WEST 3 * M_PI / 2
+# define ROUGE_NORTH create_trgb(255, 255, 0, 0)
+# define JAUNE_SOUTH create_trgb(255, 255, 255, 0)
+# define VERT_WEST create_trgb(255, 0, 255, 0)
+# define ROSE_EAST create_trgb(255, 255, 0, 255)
 
 typedef	struct s_minimap
 {

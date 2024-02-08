@@ -13,7 +13,7 @@ SOURCES = $(addsuffix .c, $(addprefix srcs/, $(SRCS))) \
 
 OBJECTS = $(SOURCES:.c=.o)
 
-OPENGL = -lXext -lX11 -lbsd -lm
+OPENGL = -lXext -lX11 -lm
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -Iminilibx-linux
 
