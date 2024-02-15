@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/07 15:45:13 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:33:26 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	mpc_turn_left(t_g *game)
 {
 	
 	game->player->angle += M_PI / 12;
-	if (game->player->angle >= 2 * M_PI)
+	if (game->player->angle >= (2 * M_PI) - 0.1)
 		game->player->angle = 0;
 	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
@@ -80,7 +80,7 @@ void	mpc_turn_left(t_g *game)
 void	mpc_turn_right(t_g *game)
 {
 	game->player->angle -= M_PI / 12;
-	if (game->player->angle <= 0)
+	if (game->player->angle <= 0.1)
 		game->player->angle = 2 * M_PI;
 	// printf("player->angle = %f\n", game->player->angle);
 	render_3d(game, &game->mlx);
