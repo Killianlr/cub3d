@@ -141,117 +141,33 @@ int	looking_dir(t_p *player, int pix)
 		return (0);
 }
 
-int	check_texture(t_ray *ray, float prev_perp, int dir)
+int	check_texture(t_ray *ray)
 {
 
 	/* SI PREV_PERP < PERP CÉST QUE LE MUR SE RAPROCHE DU CENTRE DE L'ECRAN DONC TEXTURE WEST, SINON TEXTURE EAST POUR SIDE*/
 
-	if (dir == 1)
+	if (ray->side)
 	{
-		if (prev_perp == ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (VERT_WEST);
-		}
-		else if (prev_perp > ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (ROSE_EAST);
-		}
-		else if (prev_perp < ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (VERT_WEST);
-		}
-	}
-	else if (dir == 2)
-	{
-		if (prev_perp == ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (VERT_WEST);
-		}
-		else if (prev_perp > ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (VERT_WEST);
-		}
-		else if (prev_perp < ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (ROSE_EAST);
-		}
-	}
-	else if (dir == 3)
-	{
-		if (prev_perp == ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (ROSE_EAST);
-		}
-		else if (prev_perp > ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (VERT_WEST);
-		}
-		else if (prev_perp < ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (ROSE_EAST);
-		}
+		if (ray->stepy < 0)
+			return (VERT_WEST);
+		else
+			return (ROSE_EAST);
 	}
 	else
 	{
-		if (prev_perp == ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (ROSE_EAST);
-		}
-		else if (prev_perp > ray->perpualldist)
-		{
-			if (!ray->side)
-				return (JAUNE_SOUTH);
-			else
-				return (ROSE_EAST);
-		}
-		else if (prev_perp < ray->perpualldist)
-		{
-			if (!ray->side)
-				return (ROUGE_NORTH);
-			else
-				return (VERT_WEST);
-		}
+		if (ray->stepx < 0)
+			return (JAUNE_SOUTH);
+		else
+			return (ROUGE_NORTH);
 	}
-	return (0);
 }
 
-void	draw_line(t_mlx *mlx, int pix, int y1, int y2, t_ray *ray, float prev_perp, t_p *player)
+void	draw_line(t_mlx *mlx, int pix, int y1, int y2, t_ray *ray)
 {
 	int	y;
-	int	dir;
 
 	y = 0;
-	dir = looking_dir(player, pix);
+	// dir = looking_dir(player, pix);
 	while (y <= RESY)
 	{
 		if (pix > RESX / RESX + 50 && pix < (RESX / 4) - 1 && y > RESY / RESY + 50 && y < RESY / 4)
@@ -266,7 +182,7 @@ void	draw_line(t_mlx *mlx, int pix, int y1, int y2, t_ray *ray, float prev_perp,
 		else
 		{
 			// mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, pix, y, create_trgb(255, 192, 0, 192));
-			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, pix, y, check_texture(ray, prev_perp, dir));
+			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, pix, y, check_texture(ray));
 		}
 		y++;
 	}
@@ -328,6 +244,7 @@ void	check_wall(t_ray *ray, char **map)
 float	set_raycasting(t_ray *ray, t_p *player, char **map)
 {
 	float perpualldist;
+
 	ray->dirx = cos(player->angle) / 2 + cos(player->angle - (M_PI / 2)) * ray->ratio;
 	ray->diry = sin(player->angle) / 2 + sin(player->angle - (M_PI / 2)) * ray->ratio;
 	ray->mapx = floor(player->posx);
@@ -352,26 +269,16 @@ void    render_3d(t_g *game, t_mlx *mlx)
 {
 	t_ray	ray;
     double pix;
-	float	prev_perp;
 
-	// prev_perp = 0;
-    // pix = 0;
-    pix = 2;
+    pix = 0;
 	// print_angle(game->player);
-	ray.ratio = (0 - (RESX / 2))/ (RESX / 2);
-	prev_perp = set_raycasting(&ray, game->player, game->map);
-	ray.ratio = (1 - (RESX / 2))/ (RESX / 2);
-	ray.perpualldist = set_raycasting(&ray, game->player, game->map);
-	draw_line(mlx, pix, ((RESY / 2) - (RESY / 4) / ray.perpualldist), ((RESY / 2) + (RESY / 4) / ray.perpualldist), &ray, prev_perp, game->player);
-	prev_perp = ray.perpualldist;
     while (pix <= RESX)
     {
 		ray.ratio = (pix - (RESX / 2))/ (RESX / 2);
 		ray.perpualldist = set_raycasting(&ray, game->player, game->map);
 		// printf("%f\n", ray.perpualldist);
 		// printf("perpualldist = %f\n", ray.perpualldist);
-		draw_line(mlx, pix, ((RESY / 2) - (RESY / 4) / ray.perpualldist), ((RESY / 2) + (RESY / 4) / ray.perpualldist), &ray, prev_perp, game->player);
-		prev_perp = ray.perpualldist;
+		draw_line(mlx, pix, ((RESY / 2) - (RESY / 4) / ray.perpualldist), ((RESY / 2) + (RESY / 4) / ray.perpualldist), &ray);
 		pix++;
     }
 	// draw_minimap(RESX / RESX + 50, (RESX / 4) - 1, RESY / RESY + 50, RESY / 4, game);
