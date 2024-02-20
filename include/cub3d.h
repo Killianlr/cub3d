@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/07 15:01:19 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/02/20 15:43:39 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@
 # define JAUNE_SOUTH create_trgb(255, 255, 255, 0)
 # define VERT_WEST create_trgb(255, 0, 255, 0)
 # define ROSE_EAST create_trgb(255, 255, 0, 255)
+// # define F create_trgb(255, 0, 255, 255)
+// # define C create_trgb(255, 192, 192, 192)
+
+typedef struct s_pars
+{
+	void *t_north;
+	void *t_south;
+	void *t_east;
+	void *t_west;
+	int		F;
+	int		C;
+	char	**map;
+	void	*mlx_ptr;
+}				t_pars;
 
 typedef	struct s_minimap
 {
@@ -50,10 +64,13 @@ typedef	struct s_minimap
 
 typedef struct s_image
 {
-	void	*wall;
-	void	*floor;
-	int		img_x;
-	int		img_y;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
 }			t_img;
 
 typedef struct s_mpc
@@ -107,6 +124,10 @@ typedef struct s_game
 /*--------------main.c--------------*/
 
 int 	main(void);
+
+/*--------------collision.c--------------*/
+
+int		parsing(t_pars *p, char *file)
 
 /*--------------end.c--------------*/
 
