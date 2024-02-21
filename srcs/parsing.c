@@ -28,30 +28,30 @@ int	set_data_img(int elem, char *path, t_pars *p)
 {
 	if (elem == 1)
 	{
-		p->t_north = mlx_xpm_file_to_image(p->mlx_ptr, path, 64, 64);
+		p->NO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->NO->width, &p->NO->height);
 		free(path);
-		if (!p->t_north)
+		if (!p->NO->img)
 			return (error("Invalid XPM !"));
 	}
 	else if (elem == 2)
 	{
-		p->t_south = mlx_xpm_file_to_image(p->mlx_ptr, path, 64, 64);
+		p->SO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->SO->width, p->SO->height);
 		free(path);
-		if (!p->t_south)
+		if (!p->SO->img)
 			return (error("Invalid XPM !"));
 	}
 	else if (elem == 3)
 	{
-		p->t_west = mlx_xpm_file_to_image(p->mlx_ptr, path, 64, 64);
+		p->WE->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->WE->widht, p->WE->height);
 		free(path);
-		if (!p->t_west)
+		if (!p->WE->img)
 			return (error("Invalid XPM !"));
 	}
 	else if (elem == 4)
 	{
-		p->t_east = mlx_xpm_file_to_image(p->mlx_ptr, path, 64, 64);
+		p->EA->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->EA->width, p->EA->height);
 		free(path);
-		if (!p->t_east)
+		if (!p->EA->img)
 			return (error("Invalid XPM !"));
 	}
 	return (0);
@@ -85,6 +85,48 @@ int	get_texture(char *line, t_pars *p, char *id, int elem)
 	return (0);
 }
 
+int	ft_strlen_c(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
+
+int	catch_value_color(char *line, int idx)
+{
+	int	i;
+	int	j;
+	int	len;
+	char	*nb;
+	int		ret;
+
+	i = 0;
+	j = 0;
+	while (idx)
+	{
+		while (line[i] != ',')
+			i++;
+		if (line[i])
+			i++;
+		idx--;
+	}
+	len = ft_strlen_c(&line[i], ',');
+	if (len > 3)
+		return (-1);
+	nb = malloc(sizeof(char) * (len + 1));
+	if (!nb)
+		return (-1);
+	while (line[i] && line[i] != ',')
+		nb[j++] = line[i++];
+	nb[j] = 0;
+	ret = ft_atoi(nb);
+	free(nb);
+	return (ret);
+}
+
 int	get_color(char *line, t_pars *p, char c, int elem)
 {
 	int	r;
@@ -100,7 +142,16 @@ int	get_color(char *line, t_pars *p, char c, int elem)
 	i++;
 	while (line[i] && line[i] == ' ')
 		i++;
-	
+	r = catch_value_color(line, 0);
+	g = catch_value_color(line, 1);
+	b = catch_value_color(line, 2);
+	if (r < 0 || g < 0 || b < 0)
+		return (1);
+	if (elem == 5)
+		p->F = create_trgb(255, r, g, b);
+	else
+		p->C = create_trgb(255, r, g, b);
+	return (0);
 }
 
 int	check_line_space(char *line)
@@ -121,6 +172,11 @@ int	check_line_space(char *line)
 	if (s >= 3)
 		return (1);
 	return (0);
+}
+
+int	parsing_map(char *line, t_pars *p)
+{
+	
 }
 
 int	check_element(char *line, t_pars *p, int elem)
@@ -146,8 +202,9 @@ int	check_element(char *line, t_pars *p, int elem)
 		return (get_color(line, p, 'F', elem));
 	else if (elem == 6)
 		return (get_color(line, p, 'C', elem));
-	// else if (elem == 7)
-	// 	get_map();
+	else if (elem == 7)
+		return (parsing_map(line, p))
+	return (0);
 }
 
 int	check_line_is_empty(char *line, t_pars *p)

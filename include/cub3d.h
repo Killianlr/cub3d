@@ -39,12 +39,23 @@
 // # define F create_trgb(255, 0, 255, 255)
 // # define C create_trgb(255, 192, 192, 192)
 
+typedef struct s_image
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
+}			t_img;
+
 typedef struct s_pars
 {
-	void *t_north;
-	void *t_south;
-	void *t_east;
-	void *t_west;
+	t_img *NO;
+	t_img *SO;
+	t_img *WE;
+	t_img *ES;
 	int		F;
 	int		C;
 	char	**map;
@@ -62,16 +73,6 @@ typedef	struct s_minimap
 }				t_mm;
 
 
-typedef struct s_image
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		width;
-	int		height;
-}			t_img;
 
 typedef struct s_mpc
 {
