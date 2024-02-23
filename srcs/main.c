@@ -29,6 +29,7 @@ void	mem_set_p(t_pars *p, t_mlx *mlx)
 	p->F = 0;
 	p->map = NULL;
     p->mlx_ptr = mlx->mlx_ptr;
+	p->player = 0;
 }
 
 int main(int ac, char **av)

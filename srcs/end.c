@@ -21,3 +21,21 @@ int	ft_end(t_mlx *mlx, t_p *player)
 	exit(0);
 	return (0);
 }
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (!tab)
+		return ;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+	}
+	free(tab);
+}

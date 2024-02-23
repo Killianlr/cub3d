@@ -60,6 +60,7 @@ typedef struct s_pars
 	int		C;
 	char	**map;
 	void	*mlx_ptr;
+	int		player;
 }				t_pars;
 
 typedef	struct s_minimap
@@ -133,6 +134,7 @@ int		parsing(t_pars *p, char *file)
 /*--------------end.c--------------*/
 
 int		ft_end(t_mlx *mlx, t_p *player);
+void	free_tab(char **tab);
 
 /*--------------event.c--------------*/
 

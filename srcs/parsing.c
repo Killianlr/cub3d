@@ -28,6 +28,8 @@ int	set_data_img(int elem, char *path, t_pars *p)
 {
 	if (elem == 1)
 	{
+		if (p->NO->img)
+			return (error("NO already set"));
 		p->NO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->NO->width, &p->NO->height);
 		free(path);
 		if (!p->NO->img)
@@ -35,6 +37,8 @@ int	set_data_img(int elem, char *path, t_pars *p)
 	}
 	else if (elem == 2)
 	{
+		if (p->SO->img)
+			return (error("SO already set"));
 		p->SO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->SO->width, p->SO->height);
 		free(path);
 		if (!p->SO->img)
@@ -42,6 +46,8 @@ int	set_data_img(int elem, char *path, t_pars *p)
 	}
 	else if (elem == 3)
 	{
+		if (p->WE->img)
+			return (error("WE already set"));
 		p->WE->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->WE->widht, p->WE->height);
 		free(path);
 		if (!p->WE->img)
@@ -49,6 +55,8 @@ int	set_data_img(int elem, char *path, t_pars *p)
 	}
 	else if (elem == 4)
 	{
+		if (p->EA->img)
+			return (error("EA already set"));
 		p->EA->img = mlx_xpm_file_to_image(p->mlx_ptr, path, p->EA->width, p->EA->height);
 		free(path);
 		if (!p->EA->img)
@@ -148,9 +156,17 @@ int	get_color(char *line, t_pars *p, char c, int elem)
 	if (r < 0 || g < 0 || b < 0)
 		return (1);
 	if (elem == 5)
+	{
+		if (p->F)
+			return (error("F already set !"));
 		p->F = create_trgb(255, r, g, b);
+	}
 	else
+	{
+		if (p->C)
+			return (error("C already set !"));
 		p->C = create_trgb(255, r, g, b);
+	}
 	return (0);
 }
 
@@ -174,13 +190,208 @@ int	check_line_space(char *line)
 	return (0);
 }
 
+int	check_char_map(char c, t_pars *p, int i, int len)
+{
+	if (i == 0 && c == '0' || i == len && c == '0')
+		return (error("map unclose !"));
+	if (c == '1' || c == '0')
+		return (1);
+	else if (c == '/n' || c == ' ')
+		return (1);
+	else if (c == 'N' || c == 'S')
+	{
+		p->player++;
+		return (1);
+	}
+	else if (c == 'E' || c == 'W')
+	{
+		p->player++;
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_strlen_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	set_map(char **map, t_pars *p, char *mapy)
+{
+	int	i;
+
+	i = 0;
+	while (p->map[i])
+	{
+		map[i] = p->map[i];
+		i++;
+	}
+	map[i] = mapy;
+	map[i + 1] = NULL;
+	free_tab(p->map);
+	p->map = map;
+}
+
+int	create_map(t_pars *p, char *mapy)
+{
+	char	**map;
+	int		tab_len;
+
+	map = NULL;
+	if (!mapy)
+		return (1);
+	if (!p->map)
+	{
+		p->map = malloc(sizeof(char *) * 2);
+		if (!p->map)
+			return (1);
+		p->map[0] = mapy;
+		p->map[1] = NULL;
+		return (0);
+	}
+	tab_len = ft_strlen_tab(p->map)
+	map = malloc(sizeof(char *) * (len_tab + 1));
+	if (!map)
+	{
+		free(mapy);
+		return (1);
+	}
+	set_map(map, p, mapy);
+	return (0);
+}
+
 int	parsing_map(char *line, t_pars *p)
 {
-	
+	int	i;
+	int	len;
+	char	*mapy
+
+	i = 0;
+	len = ft_strlen(line);
+	while (line[i] && check_char_map(line[i], p, i, len))
+	{
+		if (i > 0 && line[i - 1] == ' ' && line[i] == '0')
+			return (error("map unclose !"));
+		if (i < len && line[i + 1] == '0' && line[i] == ' ');
+			return (error("map unclose !"));
+		i++;
+	}
+	if (i != ft_strlen(line))
+		return (error("Invalid caracteres in map !"));
+	mapy = ft_strdup(line);
+	if (create_map(p, mapy))
+		return (error("failed alloc map !"))
+	return (0);
+}
+
+int	get_map(char *line, int fd, t_pars *p)
+{
+	int	e;
+
+	e = 0;
+	while (line)
+	{
+		if (!check_line_is_empty(line, p))
+			e++;
+		else if (e && check_line_is_empty(line, p))
+		{
+			free(line);
+			get_next_line(fd, 1);
+			return (error("Map have to be the last elements !"))
+		}
+		if (parsing_map(line, p) && !e)
+		{
+			free(line);
+			get_next_line(fd, 1);
+			return (1);
+		}
+		free(line);
+		line = get_next_line(fd, 0);
+	}
+	if (p->player == 0)
+		return (error("No player found !"));
+	else if (p->player > 1)
+		return (error("to much player found !"));
+	return (0);
+}
+
+char *get_id(char *line)
+{
+	int	i;
+	int	c;
+	char *id
+
+	i = 0;
+	c = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	while (line[i] != ' ')
+	{
+		i++;
+		c++;
+	}
+	if (c > 2)
+		return (error("Wrong identifiant !"));
+	id = malloc(sizeof(char) * (c + 1))
+	if (!id)
+		return (NULL);
+	i = i - c;
+	c = 0;
+	while (line[i] != ' ')
+		id[c++] = line[i++];
+	id[c] = 0;
+	return (id);
+}
+
+int	check_id(char *id, t_pars *p)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strncmp(id, "NO", 3))
+		return (1);
+	if (!ft_strncmp(id, "SO", ft_strlen(id)))
+		return (2);
+	if (!ft_strncmp(id, "WE", ft_strlen(id)))
+		return (3);
+	if (!ft_strncmp(id, "EA", ft_strlen(id)))
+		return (4);
+	if (!ft_strncmp(id, "F", ft_strlen(id)))
+		return (5);
+	if (!ft_strncmp(id, "C", ft_strlen(id)))
+		return (6);
+	return (0)
+
+}
+
+int	set_data_texture(char *line, t_pars *p, int e)
+{
+	if (e == 1)
+		return (get_texture(line, p, "NO", e));
+	else if (e == 2)
+		return (get_texture(line, p, "NO", e));
+	else if (e == 3)
+		return (get_texture(line, p, "NO", e));
+	else if (e == 4)
+		return (get_texture(line, p, "NO", e));
+	else if (e == 5)
+	 	return (get_color(line, p, 'F', e));
+	else if (e == 6)
+	 	return (get_color(line, p, 'F', e));
+	return (0);
 }
 
 int	check_element(char *line, t_pars *p, int elem)
 {
+	char	*id;
+	int		e;
+
+	id = NULL;
 	if (elem < 7 && check_is_map(line))
 		return (error("Missing elements !"));
 	if (elem < 7 && check_line_space(line))
@@ -190,20 +401,15 @@ int	check_element(char *line, t_pars *p, int elem)
 		//free map
 		return (error("To much element in this file !"));
 	}
-	if (elem == 1)
-		return (get_texture(line, p, "NO", elem));
-	else if (elem == 2)
-		return (get_texture(line, p, "SO", elem));
-	else if (elem == 3)
-		return (get_texture(line, p, "WE", elem));
-	else if (elem == 4)
-		return (get_texture(line, p, "EA", elem));
-	else if (elem == 5)
-		return (get_color(line, p, 'F', elem));
-	else if (elem == 6)
-		return (get_color(line, p, 'C', elem));
-	else if (elem == 7)
-		return (parsing_map(line, p))
+	id = get_id(line);
+	if (!id)
+		return (1)
+	e = check_id(id, p)
+	free(id);
+	if (!e)
+		return (error("Wrong identifiant !"));
+	if (set_data_texture(line, p, e))
+		return (1);
 	return (0);
 }
 
@@ -237,11 +443,17 @@ int	parsing(t_pars *p, char *file)
 		if (check_line_is_empty(line, &p))
 		{
 			elem++;
-			if (check_elem(line, &p, elem))
+			if (check_elem(line, &p, elem) && elem < 7)
 			{
 				free(line);
 				get_next_line(fd, 1);
 				return (1);
+			}
+			else if (elem > 6)
+			{
+				if (get_map(line, fd, &p))
+					return (1);
+				break ;
 			}
 		}
 		free(line);
