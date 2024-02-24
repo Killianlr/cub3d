@@ -121,12 +121,12 @@ typedef struct s_game
 	t_ray	ray;
 	t_mlx	mlx;
 	char	**map;
-	t_pars	*p;
+	t_pars	p;
 }				t_g;
 
 /*--------------main.c--------------*/
 
-int	error(char *msg);
+int	error(char *msg, t_pars *p);
 
 /*--------------collision.c--------------*/
 
@@ -134,8 +134,9 @@ int		parsing(t_pars *p, char *file);
 
 /*--------------end.c--------------*/
 
-int		ft_end(t_mlx *mlx, t_p *player);
+int		ft_end(t_g *game);
 void	free_tab(char **tab);
+void	free_t_pars(t_pars *p);
 
 /*--------------event.c--------------*/
 
@@ -144,6 +145,7 @@ int		handle_no_event(void *data);
 
 /*--------------map.c--------------*/
 
+char **remove_backn(char **map);
 
 /*--------------utiles.c--------------*/
 

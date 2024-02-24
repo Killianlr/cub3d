@@ -1,7 +1,7 @@
 NO ./texture/NORD.xpm
 SO ./texture/SUD.xpm
 WE ./texture/OUEST.xpm
-EA ./texture/EST.xpm
+SO ./texture/EST.xpm
 
 F 220,100,0
 C 225,30,0
