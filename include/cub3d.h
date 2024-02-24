@@ -6,7 +6,7 @@
 /*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 19:50:16 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/24 22:57:53 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define JAUNE_SOUTH create_trgb(255, 255, 255, 0)
 # define VERT_WEST create_trgb(255, 0, 255, 0)
 # define ROSE_EAST create_trgb(255, 255, 0, 255)
-// # define F create_trgb(255, 0, 255, 255)
-// # define C create_trgb(255, 192, 192, 192)
+# define F create_trgb(255, 0, 255, 255)
+# define C create_trgb(255, 192, 192, 192)
 
 typedef struct s_image
 {
@@ -50,18 +50,26 @@ typedef struct s_image
 	int		height;
 }			t_img;
 
-typedef struct s_pars
+typedef struct s_walls
 {
-	t_img *NO;
-	t_img *SO;
-	t_img *WE;
-	t_img *EA;
-	int		F;
-	int		C;
-	char	**map;
-	void	*mlx_ptr;
-	int		player;
-}				t_pars;
+	t_img NO;
+	t_img SO;
+	t_img WE;
+	t_img EA;
+}		t_walls;
+
+// typedef struct s_pars
+// {
+// 	t_img *NO;
+// 	t_img *SO;
+// 	t_img *WE;
+// 	t_img *EA;
+// 	int		F;
+// 	int		C;
+// 	char	**map;
+// 	void	*mlx_ptr;
+// 	int		player;
+// }				t_pars;
 
 typedef	struct s_minimap
 {
@@ -115,13 +123,24 @@ typedef struct s_ray
 	float	perpualldist;
 }				t_ray;
 
+typedef struct s_event
+{
+	int	mv_forth;
+	int	mv_back;
+	int	mv_left;
+	int	mv_right;
+	int	rot_left;
+	int	rot_right;
+}			t_ev;
+
 typedef struct s_game
 {
 	t_p		*player;
 	t_ray	ray;
 	t_mlx	mlx;
 	char	**map;
-	t_pars	*p;
+	t_ev	*ev;
+	// t_pars	*p;
 }				t_g;
 
 /*--------------main.c--------------*/
@@ -130,7 +149,7 @@ int	error(char *msg);
 
 /*--------------collision.c--------------*/
 
-int		parsing(t_pars *p, char *file);
+// int		parsing(t_pars *p, char *file);
 
 /*--------------end.c--------------*/
 
@@ -141,9 +160,14 @@ void	free_tab(char **tab);
 
 int		ft_input(int keysym, t_g *game);
 int		handle_no_event(void *data);
+int		key_pressed(int keysym, t_g *game);
+int		key_released(int keysym, t_g *game);
+int		key_action(void *data);
+
 
 /*--------------map.c--------------*/
 
+char	**get_map(void);
 
 /*--------------utiles.c--------------*/
 
