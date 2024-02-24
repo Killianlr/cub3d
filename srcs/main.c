@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/20 15:43:21 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/24 20:10:37 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,24 @@ int	error(char *msg)
 
 void	mem_set_p(t_pars *p, t_mlx *mlx)
 {
-	p->t_east = NULL;
-	p->t_south = NULL;
-	p->t_north = NULL;
-	p->t_west = NULL;
+	t_img *EA;
+	t_img *SO;
+	t_img *NO;
+	t_img *WE;
+
+	EA = malloc(sizeof(t_img));
+	SO = malloc(sizeof(t_img));
+	NO = malloc(sizeof(t_img));
+	WE = malloc(sizeof(t_img));
+	EA->img = NULL;
+	SO->img = NULL;
+	NO->img = NULL;
+	WE->img = NULL;
+
+	p->EA = EA;
+	p->SO = SO;
+	p->NO = NO;
+	p->WE = WE;
 	p->C = 0;
 	p->F = 0;
 	p->map = NULL;
@@ -40,15 +54,17 @@ int main(int ac, char **av)
 
     if (ac == 0)
 		return (error("No map !"));
-	if (ac > 1)
+	if (ac > 2)
 		return (error("To many arguments !"));
 	set_mlx(&mlx);
-	mem_set_p(&p, mlx);
+	mem_set_p(&p, &mlx);
 	if (parsing(&p, av[1]))
 		return (1);
+	printf("parsing crash pas");
 	game.map = p.map;
 	game.player = (t_p *)malloc(sizeof(t_p));
 	game.mlx = mlx;
+	game.p = &p;
     find_player_pos(game.player, game.map);
     mlx_key_hook(mlx.win_ptr, &ft_input, &game);
     render_3d(&game, &game.mlx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/20 11:10:11 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:45:30 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,9 +158,9 @@ void    render_3d(t_g *game, t_mlx *mlx)
 		while (y <= RESY)
 		{
 			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, F);
+				my_mlx_pixel_put(&img, pix, y, game->p->F);
 			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, C);
+				my_mlx_pixel_put(&img, pix, y, game->p->C);
 			else
 				my_mlx_pixel_put(&img, pix, y, check_texture(&ray));
 			y++;

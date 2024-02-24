@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/20 15:43:39 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:50:16 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_pars
 	t_img *NO;
 	t_img *SO;
 	t_img *WE;
-	t_img *ES;
+	t_img *EA;
 	int		F;
 	int		C;
 	char	**map;
@@ -121,15 +121,16 @@ typedef struct s_game
 	t_ray	ray;
 	t_mlx	mlx;
 	char	**map;
+	t_pars	*p;
 }				t_g;
 
 /*--------------main.c--------------*/
 
-int 	main(void);
+int	error(char *msg);
 
 /*--------------collision.c--------------*/
 
-int		parsing(t_pars *p, char *file)
+int		parsing(t_pars *p, char *file);
 
 /*--------------end.c--------------*/
 
@@ -143,7 +144,6 @@ int		handle_no_event(void *data);
 
 /*--------------map.c--------------*/
 
-char	**get_map(void);
 
 /*--------------utiles.c--------------*/
 
