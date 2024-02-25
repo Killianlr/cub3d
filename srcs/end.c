@@ -17,7 +17,7 @@ int	ft_end(t_g *game)
 	free(game->player);
 	mlx_destroy_window(game->mlx.mlx_ptr, game->mlx.win_ptr);
 	mlx_destroy_display(game->mlx.mlx_ptr);
-	free_t_pars(&game->p);
+	// free_t_pars(&game->p);
 	free(game->mlx.mlx_ptr);
 	exit(0);
 	return (0);
@@ -65,4 +65,7 @@ void	free_t_pars(t_pars *p)
 	}
 	if (p->map)
 		free_tab(p->map);
+	if (p->fd > 0)
+		close(p->fd);
+	p = NULL;
 }

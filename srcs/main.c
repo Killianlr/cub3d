@@ -14,7 +14,8 @@
 
 int	error(char *msg, t_pars *p)
 {
-	free_t_pars(p);
+	if (p != NULL)
+		free_t_pars(p);
 	printf("Error\n");
 	printf("%s\n", msg);
 	return (1);
@@ -72,7 +73,7 @@ void	free_img(int i, t_pars *p)
 	}
 }
 
-int	mem_set_p(t_pars *p, t_mlx *mlx)
+int	mem_set(t_pars *p, t_mlx *mlx)
 {
 	int	i;
 
@@ -91,6 +92,7 @@ int	mem_set_p(t_pars *p, t_mlx *mlx)
 	p->map = NULL;
     p->mlx_ptr = mlx->mlx_ptr;
 	p->player = 0;
+	p->fd = 0;
 	return (0);
 }
 
@@ -100,16 +102,19 @@ int main(int ac, char **av)
 	t_mlx	mlx;
     t_pars  p;
 
-    if (ac == 0)
-		return (error("No map !", &p));
+    if (ac == 1)
+		return (error("No map !", NULL));
 	if (ac > 2)
-		return (error("To many arguments !", &p));
+		return (error("To many arguments !", NULL));
 	set_mlx(&mlx);
-	if (mem_set_p(&p, &mlx))
+	if (mem_set(&p, &mlx))
 		return (1);
 	printf("avant parsing \n");
 	if (parsing(&p, av[1]))
+	{
+		ft_end(&game);
 		return (1);
+	}
 	printf("parsing crash pas");
 	game.map = p.map;
 	game.player = (t_p *)malloc(sizeof(t_p));

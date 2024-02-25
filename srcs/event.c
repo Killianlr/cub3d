@@ -89,7 +89,7 @@ void	mpc_turn_right(t_g *game)
 int	ft_input(int keysym, t_g *game)
 {
 	if (keysym == XK_Escape)
-		ft_end(&game->mlx, game->player);
+		ft_end(game);
 	if (keysym == XK_w)
 		mpc_go_up(game);
 	if (keysym == XK_a)

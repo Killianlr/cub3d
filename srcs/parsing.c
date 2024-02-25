@@ -113,7 +113,7 @@ int	catch_value_color(char *line, int idx)
 
 	i = 0;
 	j = 0;
-	while (idx)
+	while (idx && line[i])
 	{
 		while (line[i] != ',')
 			i++;
@@ -121,6 +121,8 @@ int	catch_value_color(char *line, int idx)
 			i++;
 		idx--;
 	}
+	if (idx)
+		return (-1);
 	len = ft_strlen_c(&line[i], ',');
 	if (len > 3)
 		return (-1);
@@ -131,6 +133,8 @@ int	catch_value_color(char *line, int idx)
 		nb[j++] = line[i++];
 	nb[j] = 0;
 	ret = ft_atoi(nb); // check si + 255
+	if (ret > 255 || ret < 0)
+		return (-1);
 	free(nb);
 	return (ret);
 }
@@ -442,14 +446,14 @@ int	check_element(char *line, t_pars *p, int elem)
 
 int	parsing(t_pars *p, char *file)
 {
-	int	fd;
 	char	*line;
 	int		elem;
 
-	fd = open(file, O_RDONLY);
-	if (!fd)
+	p->fd = open(file, O_RDONLY);
+	if (p->fd <= 0)
 		return (error("File unexiste or unaccess !", p));
-	line = get_next_line(fd, 0);
+	printf("p->fd = %d\n", p->fd);
+	line = get_next_line(p->fd, 0);
 	if (!line)
 		return (error("file empty !", p));
 	elem = 0;
@@ -462,19 +466,19 @@ int	parsing(t_pars *p, char *file)
 			if (elem < 7 && check_element(line, p, elem))
 			{
 				free(line);
-				get_next_line(fd, 1);
+				get_next_line(p->fd, 1);
 				return (1);
 			}
 			else if (elem > 6)
 			{
-				if (get_map(line, fd, p))
+				if (get_map(line, p->fd, p))
 					return (1);
 				// printf("break\n");
 				break ;
 			}
 		}
 		free(line);
-		line = get_next_line(fd, 0);
+		line = get_next_line(p->fd, 0);
 	}
 	printf("fin du parsing !\n");
 	printf("struct pars :\n");

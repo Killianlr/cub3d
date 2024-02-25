@@ -61,6 +61,7 @@ typedef struct s_pars
 	char	**map;
 	void	*mlx_ptr;
 	int		player;
+	int		fd;
 }				t_pars;
 
 typedef	struct s_minimap

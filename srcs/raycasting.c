@@ -158,9 +158,9 @@ void    render_3d(t_g *game, t_mlx *mlx)
 		while (y <= RESY)
 		{
 			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, game->p->F);
+				my_mlx_pixel_put(&img, pix, y, game->p.F);
 			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, game->p->C);
+				my_mlx_pixel_put(&img, pix, y, game->p.C);
 			else
 				my_mlx_pixel_put(&img, pix, y, check_texture(&ray));
 			y++;
