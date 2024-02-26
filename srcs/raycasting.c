@@ -66,12 +66,12 @@ int	color_texture(t_img *img, float precision, int y, int hauteur_mur)
 
 	// printf("ratio = %f : y = %d : hautuermur = %d\n", ratio, y, hauteur_mur);
 	per_x = precision - floor(precision);
-	per_x = sqrt(per_x * per_x);
+	// per_x = sqrt(per_x * per_x);
 	// printf("y = %d\n", y);
-	printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
+	// printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
 	per_y = (float)y / (float)hauteur_mur;
-	text_x = img->width * per_x;
-	text_y = img->height * per_y;
+	text_x = (float)img->width * per_x;
+	text_y = (float)img->height * per_y;
 	// printf("w = %d : h = %d\n", img->width, img->height);
 	// printf("x = %f : y = %f\n", per_x, per_y);
 	// printf("text_x = %d : text_y = %d\n", text_x, text_y);
@@ -85,12 +85,12 @@ int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
 		if (ray->stepy < 0)
 			return (color_texture(game->p.WE, ray->precision, y, hauteur_mur));
 		else
-			return (color_texture(game->p.EA, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.EA, -ray->precision, y, hauteur_mur));
 	}
 	else
 	{
 		if (ray->stepx < 0)
-			return (color_texture(game->p.SO, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.SO, -ray->precision, y, hauteur_mur));
 		else
 			return (color_texture(game->p.NO, ray->precision, y, hauteur_mur));
 	}
@@ -140,7 +140,7 @@ void	fonction(int side, t_ray *ray, t_p *player)
 	float	steps;
 	float	pos_wall;
 
-	if (side == 1)
+	if (side == 0)
 	{
 		distance = player->posx - ray->mapx;
 		// distance = sqrt(distance * distance);
