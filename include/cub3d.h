@@ -102,6 +102,7 @@ typedef struct s_mlx
 typedef struct s_ray
 {
 	double   ratio;
+	float	precision;
 	float		dirx;
 	float		diry;
 	float		mapx;

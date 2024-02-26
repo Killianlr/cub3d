@@ -57,7 +57,7 @@ void	create_image(t_img *img, t_mlx *mlx)
 				&img->line_length, &img->endian);
 }
 
-int	color_texture(t_img *img, float precision, int y, int hauteur_mur)
+int	color_texture(t_img *img, float ratio, int y, int hauteur_mur)
 {
 	float	per_x;
 	float	per_y;
@@ -65,11 +65,10 @@ int	color_texture(t_img *img, float precision, int y, int hauteur_mur)
 	int		text_y;
 
 	// printf("ratio = %f : y = %d : hautuermur = %d\n", ratio, y, hauteur_mur);
-	per_x = precision - floor(precision);
-	per_x = sqrt(per_x * per_x);
+	per_x = ratio - floor(ratio);
 	// printf("y = %d\n", y);
-	printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
-	per_y = (float)y / (float)hauteur_mur;
+	// printf("hauteurmur = %d\n", hauteur_mur);
+	per_y = y / hauteur_mur;
 	text_x = img->width * per_x;
 	text_y = img->height * per_y;
 	// printf("w = %d : h = %d\n", img->width, img->height);
@@ -83,16 +82,16 @@ int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
 	if (ray->side)
 	{
 		if (ray->stepy < 0)
-			return (color_texture(game->p.WE, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.WE, ray->mapx, y, hauteur_mur));
 		else
-			return (color_texture(game->p.EA, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.EA, ray->mapx, y, hauteur_mur));
 	}
 	else
 	{
 		if (ray->stepx < 0)
-			return (color_texture(game->p.SO, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.SO, ray->mapy, y, hauteur_mur));
 		else
-			return (color_texture(game->p.NO, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.NO, ray->mapy, y, hauteur_mur));
 	}
 	// if (ray->side)
 	// {
@@ -112,6 +111,7 @@ int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
 
 void	check_dir(t_ray *ray, t_p *player)
 {
+	
 	if (ray->dirx < 0)
 	{
 		ray->stepx = -1;
@@ -134,30 +134,7 @@ void	check_dir(t_ray *ray, t_p *player)
 	}
 }
 
-void	fonction(int side, t_ray *ray, t_p *player)
-{
-	float	distance;
-	float	steps;
-	float	pos_wall;
-
-	if (side == 1)
-	{
-		distance = player->posx - ray->mapx;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->dirx;
-		pos_wall = ray->diry * steps;
-	}
-	else
-	{
-		distance = player->posy - ray->mapy;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->diry;
-		pos_wall = ray->dirx * steps;
-	}
-	ray->precision = pos_wall;
-}
-
-void	check_wall(t_ray *ray, char **map, t_p *player)
+void	check_wall(t_ray *ray, char **map)
 {
 	int hit;
 	int	intmapy;
@@ -184,26 +161,63 @@ void	check_wall(t_ray *ray, char **map, t_p *player)
 		if (map[intmapx][intmapy] == '1')
 			hit = 1;
 	}
-	fonction(ray->side, ray, player);
+}
+
+float	length_vec(float x, float y)
+{
+	return (sqrt(x * x + y * y)); 
 }
 
 float	set_raycasting(t_ray *ray, t_p *player, char **map)
 {
-	float perpualldist;
+	int	intmapy;
+	int	intmapx;
 
 	ray->dirx = cos(player->angle) / 2 + cos(player->angle - (M_PI / 2)) * ray->ratio;
 	ray->diry = sin(player->angle) / 2 + sin(player->angle - (M_PI / 2)) * ray->ratio;
 	ray->mapx = floor(player->posx);
 	ray->mapy = floor(player->posy);
-	ray->deltadistx = sqrt(1 + (pow(ray->diry, 2) / pow(ray->dirx, 2)));
-	ray->deltadisty = sqrt(1 + (pow(ray->dirx, 2) / pow(ray->diry, 2)));
-	check_dir(ray, player);
-	check_wall(ray, map, player);
-	if (ray->side == 0)
-		perpualldist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
-	else
-		perpualldist = (ray->mapy - player->posy + (1 - ray->stepy) / 2) / ray->diry;
-	return (perpualldist);
+	// ray->deltadistx = sqrt(1 + (pow(ray->diry, 2) / pow(ray->dirx, 2)));
+	// ray->deltadisty = sqrt(1 + (pow(ray->dirx, 2) / pow(ray->diry, 2)));
+	// check_dir(ray, player);
+	// check_wall(ray, map);
+	ray->pos[0] = player->posx;
+	ray->pos[1] = player->posy;
+
+	while(1)
+	{
+		float dist_x = (floor(ray->pos[0]) + (1 - 2 * (ray->dirx < 0)) ) - ray->pos[0];
+		float dist_y = (floor(ray->pos[1]) + (1 - 2 * (ray->diry < 0)) ) - ray->pos[1];
+
+		float steps_x = dist_x / ray->dirx; //steps = temps = "seconde"
+		float steps_y = dist_y / ray->diry;
+
+		if (steps_x < steps_y)
+		{
+			ray->pos[0] += ray->dirx * steps_x;
+			ray->pos[1] += ray->diry * steps_x;
+		}
+		else
+		{
+			ray->pos[0] += ray->dirx * steps_y;
+			ray->pos[1] += ray->diry * steps_y;
+		}
+		intmapx = floor(ray->pos[0]);
+		intmapy = floor(ray->pos[1]);
+		if (map[intmapx][intmapy] == '1') // check in bound
+			break ;
+	}
+
+	//extraire les valeurs de pos
+
+	//calculer taille d'un vecteur 
+	return length_vec(ray->pos[0] - player->posx, ray->pos[1] - player->posy);
+
+	// if (ray->side == 0)
+	// 	perpualldist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
+	// else
+	// 	perpualldist = (ray->mapy - player->posy + (1 - ray->stepy) / 2) / ray->diry;
+	// return (perpualldist);
 }
 
 void    render_3d(t_g *game, t_mlx *mlx)
