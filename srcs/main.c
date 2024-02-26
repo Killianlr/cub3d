@@ -6,7 +6,7 @@
 /*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 20:10:37 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/26 10:15:42 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,18 @@ int	mem_set(t_pars *p, t_mlx *mlx)
 	return (0);
 }
 
+void set_texture(t_pars *p)
+{
+	p->NO->addr = mlx_get_data_addr(p->NO->img,
+		&p->NO->bits_per_pixel, &p->NO->line_length, &p->NO->endian);
+	p->SO->addr = mlx_get_data_addr(p->SO->img,
+		&p->SO->bits_per_pixel, &p->SO->line_length, &p->SO->endian);
+	p->WE->addr = mlx_get_data_addr(p->WE->img,
+				&p->WE->bits_per_pixel, &p->WE->line_length, &p->WE->endian);
+	p->EA->addr = mlx_get_data_addr(p->EA->img,
+				&p->EA->bits_per_pixel, &p->EA->line_length, &p->EA->endian);
+}
+
 int main(int ac, char **av)
 {
 	t_g		game;
@@ -115,13 +127,14 @@ int main(int ac, char **av)
 		ft_end(&game);
 		return (1);
 	}
+	set_texture(&p);
 	printf("parsing crash pas");
 	game.map = p.map;
 	game.player = (t_p *)malloc(sizeof(t_p));
 	game.mlx = mlx;
 	game.p = p;
-	ft_end(&game);
-	return (0);
+	// ft_end(&game);
+	// return (0);
     find_player_pos(game.player, game.map);
     mlx_key_hook(mlx.win_ptr, &ft_input, &game);
     render_3d(&game, &game.mlx);

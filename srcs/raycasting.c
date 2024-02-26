@@ -6,7 +6,7 @@
 /*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 19:45:30 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/26 11:16:13 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *) dest = color;
 }
 
+int	my_mlx_pixel_get(t_img *img, int x, int y)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *) dst);
+}
+
 void	create_image(t_img *img, t_mlx *mlx)
 {
 	img->img = mlx_new_image(mlx->mlx_ptr, RESX, RESY);
@@ -49,23 +57,56 @@ void	create_image(t_img *img, t_mlx *mlx)
 				&img->line_length, &img->endian);
 }
 
-int	check_texture(t_ray *ray)
+int	color_texture(t_img *img, float ratio, int y, int hauteur_mur)
 {
+	float	per_x;
+	float	per_y;
+	int		text_x;
+	int		text_y;
 
+	printf("ratio = %f : y = %d : hautuermur = %d\n", ratio, y, hauteur_mur);
+	per_x = ratio - floor(ratio);
+	// printf("y = %d\n", y);
+	// printf("hauteurmur = %d\n", hauteur_mur);
+	per_y = y / hauteur_mur;
+	text_x = img->width * per_x;
+	text_y = img->height * per_y;
+	printf("w = %d : h = %d\n", img->width, img->height);
+	printf("x = %f : y = %f\n", per_x, per_y);
+	// printf("text_x = %d : text_y = %d\n", text_x, text_y);
+	return (my_mlx_pixel_get(img, text_x, text_y));
+}
+
+int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
+{
 	if (ray->side)
 	{
 		if (ray->stepy < 0)
-			return (VERT_WEST);
+			return (color_texture(game->p.WE, ray->mapx, y, hauteur_mur));
 		else
-			return (ROSE_EAST);
+			return (color_texture(game->p.EA, ray->mapx, y, hauteur_mur));
 	}
 	else
 	{
 		if (ray->stepx < 0)
-			return (JAUNE_SOUTH);
+			return (color_texture(game->p.SO, ray->mapy, y, hauteur_mur));
 		else
-			return (ROUGE_NORTH);
+			return (color_texture(game->p.NO, ray->mapy, y, hauteur_mur));
 	}
+	// if (ray->side)
+	// {
+	// 	if (ray->stepy < 0)
+	// 		return (VERT_WEST);
+	// 	else
+	// 		return (ROSE_EAST);
+	// }
+	// else
+	// {
+	// 	if (ray->stepx < 0)
+	// 		return (JAUNE_SOUTH);
+	// 	else
+	// 		return (ROUGE_NORTH);
+	// }
 }
 
 void	check_dir(t_ray *ray, t_p *player)
@@ -146,6 +187,7 @@ void    render_3d(t_g *game, t_mlx *mlx)
 	t_img	img;
     double pix;
 	int		y;
+	int		hauteur_mur;
 
     pix = 0;
 	img.img = NULL;
@@ -157,12 +199,17 @@ void    render_3d(t_g *game, t_mlx *mlx)
 		y = 0;
 		while (y <= RESY)
 		{
+			hauteur_mur = ((RESY / 2) + (RESY / 4) / ray.perpualldist) - ((RESY / 2) - (RESY / 4) / ray.perpualldist);
 			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
 				my_mlx_pixel_put(&img, pix, y, game->p.F);
 			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
 				my_mlx_pixel_put(&img, pix, y, game->p.C);
 			else
-				my_mlx_pixel_put(&img, pix, y, check_texture(&ray));
+			{
+				// recuperer le x et y de limage, 
+				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur));
+
+			}
 			y++;
 		}
 		pix++;

@@ -6,7 +6,7 @@
 /*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:56:04 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 20:29:07 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/26 11:00:33 by flavian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	set_data_img(int elem, char *path, t_pars *p)
 			return (error("NO already set", p));
 		p->NO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->NO->width, &p->NO->height);
 		free(path);
+		printf("w = %d , h = %d\n", p->NO->width, p->NO->height);
 		if (!p->NO->img)
 			return (error("Invalid XPM !", p));
 	}
