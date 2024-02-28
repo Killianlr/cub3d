@@ -114,6 +114,7 @@ int	catch_value_color(char *line, int idx)
 
 	i = 0;
 	j = 0;
+	printf("debut catch value color\n");
 	while (idx && line[i])
 	{
 		while (line[i] != ',')
@@ -137,6 +138,7 @@ int	catch_value_color(char *line, int idx)
 	if (ret > 255 || ret < 0)
 		return (-1);
 	free(nb);
+	printf("fin de catch value color\n");
 	return (ret);
 }
 

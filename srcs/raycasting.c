@@ -69,9 +69,10 @@ int	color_texture(t_img *img, float precision, int y, int hauteur_mur)
 	// per_x = sqrt(per_x * per_x);
 	// printf("y = %d\n", y);
 	// printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
+	// printf("per_x = %f\n", per_x);
 	per_y = (float)y / (float)hauteur_mur;
-	text_x = (float)img->width * per_x;
-	text_y = (float)img->height * per_y;
+	text_x = img->width * per_x;
+	text_y = img->height * per_y;
 	// printf("w = %d : h = %d\n", img->width, img->height);
 	// printf("x = %f : y = %f\n", per_x, per_y);
 	// printf("text_x = %d : text_y = %d\n", text_x, text_y);
@@ -134,30 +135,7 @@ void	check_dir(t_ray *ray, t_p *player)
 	}
 }
 
-void	fonction(int side, t_ray *ray, t_p *player)
-{
-	float	distance;
-	float	steps;
-	float	pos_wall;
-
-	if (side == 0)
-	{
-		distance = player->posx - ray->mapx;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->dirx;
-		pos_wall = ray->diry * steps;
-	}
-	else
-	{
-		distance = player->posy - ray->mapy;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->diry;
-		pos_wall = ray->dirx * steps;
-	}
-	ray->precision = pos_wall;
-}
-
-void	check_wall(t_ray *ray, char **map, t_p *player)
+void	check_wall(t_ray *ray, char **map)
 {
 	int hit;
 	int	intmapy;
@@ -166,8 +144,7 @@ void	check_wall(t_ray *ray, char **map, t_p *player)
 	hit = 0;
 	while (!hit)
 	{
-		if (!ray->sidedisty || (ray->sidedistx
-			&& ray->sidedistx < ray->sidedisty))
+		if (ray->sidedistx < ray->sidedisty)
 		{
 			ray->sidedistx += ray->deltadistx;
 			ray->mapx += ray->stepx;
@@ -181,28 +158,40 @@ void	check_wall(t_ray *ray, char **map, t_p *player)
 		}
 		intmapx = floor(ray->mapx);
 		intmapy = floor(ray->mapy);
+		printf("x = %d : y = %d\n", intmapx, intmapy);
+		printf("%c\n", map[1][1]);
+		printf("%c\n", map[intmapx][intmapy]);
 		if (map[intmapx][intmapy] == '1')
 			hit = 1;
+		printf("hit\n");
 	}
-	fonction(ray->side, ray, player);
 }
 
-float	set_raycasting(t_ray *ray, t_p *player, char **map)
+double	set_raycasting(t_ray *ray, t_p *player, char **map)
 {
-	float perpualldist;
+	double	perpualldist;
 
-	ray->dirx = cos(player->angle) / 2 + cos(player->angle - (M_PI / 2)) * ray->ratio;
-	ray->diry = sin(player->angle) / 2 + sin(player->angle - (M_PI / 2)) * ray->ratio;
+	ray->raydirx = ray->dirx + ray->planex * ray->camerax;
+	ray->raydiry = ray->diry + ray->planey * ray->camerax; 
+	ray->deltadistx = sqrt(1 + (ray->raydiry * ray->raydiry) / (ray->raydirx * ray->raydirx));
+	ray->deltadisty = sqrt(1 + (ray->raydirx * ray->raydirx) / (ray->raydiry * ray->raydiry));
 	ray->mapx = floor(player->posx);
 	ray->mapy = floor(player->posy);
-	ray->deltadistx = sqrt(1 + (pow(ray->diry, 2) / pow(ray->dirx, 2)));
-	ray->deltadisty = sqrt(1 + (pow(ray->dirx, 2) / pow(ray->diry, 2)));
-	check_dir(ray, player);
-	check_wall(ray, map, player);
-	if (ray->side == 0)
-		perpualldist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
+	if(ray->raydirx == 0)
+		ray->deltadistx = 1e30;
 	else
-		perpualldist = (ray->mapy - player->posy + (1 - ray->stepy) / 2) / ray->diry;
+		ray->deltadistx = fabs(1 / ray->raydirx);
+	if(ray->raydiry == 0)
+		ray->deltadisty = 1e30;
+	else
+		ray->deltadisty = fabs(1 / ray->raydiry);
+	check_dir(ray, player);
+	check_wall(ray, map);
+	printf("ici\n");
+	if (ray->side == 0)
+		perpualldist = (ray->sidedistx - ray->deltadistx);
+	else
+		perpualldist = (ray->sidedisty - ray->deltadisty);
 	return (perpualldist);
 }
 
@@ -212,33 +201,51 @@ void    render_3d(t_g *game, t_mlx *mlx)
 	t_img	img;
     double pix;
 	int		y;
-	int		hauteur_mur;
+	int		lineHeight;
+	int		drawStart;
+	int		drawEnd;
 
     pix = 0;
 	img.img = NULL;
+	ray.dirx = -1;
+	ray.diry = 0;
+	ray.planex = 0;
+	ray.planey = 0.66;
+
+	ray.time = 0;
+	ray.oldtime = 0;
 	create_image(&img, mlx);
+	printf("\ndebut raycasting !\n");
     while (pix <= RESX)
     {
-		ray.ratio = (pix - (RESX / 2))/ (RESX / 2);
-		ray.perpualldist = set_raycasting(&ray, game->player, game->map);
+		ray.camerax = 2 * pix / (double)RESY - 1;
+		printf("avant algo raycasting\n");
+		ray.perpualldist = set_raycasting(&ray, game->player, game->p.map);
+		printf("apres algo raycasting\n");
+		lineHeight = (int)(RESX / ray.perpualldist);
+		drawStart = -lineHeight / 2 + RESX / 2;
+		if (drawStart < 0)
+			drawStart = 0;
+		drawEnd = lineHeight / 2 + RESX / 2;
+		if (drawEnd >= RESX)
+			drawEnd = RESX - 1;
 		y = 0;
+		printf("avant de colorier\n");
 		while (y <= RESY)
 		{
-			hauteur_mur = ((RESY / 2) + (RESY / 4) / ray.perpualldist) - ((RESY / 2) - (RESY / 4) / ray.perpualldist);
 			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
 				my_mlx_pixel_put(&img, pix, y, game->p.F);
 			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
 				my_mlx_pixel_put(&img, pix, y, game->p.C);
 			else
 			{
-				// recuperer le x et y de limage, 
-				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur));
-
+				my_mlx_pixel_put(&img, pix, y, create_trgb(255, 255, 0, 0));
 			}
 			y++;
 		}
 		pix++;
     }
+	printf("fin raycasting !\n");
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx_ptr, img.img);
 }

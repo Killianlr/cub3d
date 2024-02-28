@@ -102,19 +102,27 @@ typedef struct s_mlx
 typedef struct s_ray
 {
 	double   ratio;
-	float	precision;
-	float		dirx;
-	float		diry;
-	float		mapx;
-	float		mapy;
-	float	deltadistx;
-	float	deltadisty;
-	float		stepx;
-	float		stepy;
-	float	sidedistx;
-	float	sidedisty;
+	double	precision;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
+	double		mapx;
+	double		mapy;
+	double	deltadistx;
+	double	deltadisty;
+	double		stepx;
+	double		stepy;
+	double	sidedistx;
+	double	sidedisty;
 	int		side;
-	float	perpualldist;
+	double	perpualldist;
+
+	double	time;
+	double	oldtime;
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
 }				t_ray;
 
 typedef struct s_game
