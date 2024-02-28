@@ -137,7 +137,7 @@ int main(int ac, char **av)
 	// return (0);
     find_player_pos(game.player, game.map);
     mlx_key_hook(mlx.win_ptr, &ft_input, &game);
-    render_3d(&game, &game.mlx);
+    render_3d(&game, &game.mlx, game.map);
     mlx_loop(mlx.mlx_ptr);
 	ft_end(&game);
     return (0);

@@ -165,7 +165,7 @@ void	set_mlx(t_mlx *mlx);
 
 /*--------------raycasting.c--------------*/
 
-void    render_3d(t_g *game, t_mlx *mlx);
+void    render_3d(t_g *game, t_mlx *mlx, char **map);
 
 /*--------------collision.c--------------*/
 

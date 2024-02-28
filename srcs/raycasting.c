@@ -158,13 +158,10 @@ void	check_wall(t_ray *ray, char **map)
 		}
 		intmapx = floor(ray->mapx);
 		intmapy = floor(ray->mapy);
-		printf("x = %d : y = %d\n", intmapx, intmapy);
-		printf("%c\n", map[1][1]);
-		printf("%c\n", map[intmapx][intmapy]);
 		if (map[intmapx][intmapy] == '1')
 			hit = 1;
-		printf("hit\n");
 	}
+	printf("fin du hit\n");
 }
 
 double	set_raycasting(t_ray *ray, t_p *player, char **map)
@@ -195,7 +192,7 @@ double	set_raycasting(t_ray *ray, t_p *player, char **map)
 	return (perpualldist);
 }
 
-void    render_3d(t_g *game, t_mlx *mlx)
+void    render_3d(t_g *game, t_mlx *mlx, char **map)
 {
 	t_ray	ray;
 	t_img	img;
@@ -220,7 +217,7 @@ void    render_3d(t_g *game, t_mlx *mlx)
     {
 		ray.camerax = 2 * pix / (double)RESY - 1;
 		printf("avant algo raycasting\n");
-		ray.perpualldist = set_raycasting(&ray, game->player, game->p.map);
+		ray.perpualldist = set_raycasting(&ray, game->player, map);
 		printf("apres algo raycasting\n");
 		lineHeight = (int)(RESX / ray.perpualldist);
 		drawStart = -lineHeight / 2 + RESX / 2;
@@ -233,9 +230,9 @@ void    render_3d(t_g *game, t_mlx *mlx)
 		printf("avant de colorier\n");
 		while (y <= RESY)
 		{
-			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
+			if (y < drawStart)
 				my_mlx_pixel_put(&img, pix, y, game->p.F);
-			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
+			else if (y > drawEnd)
 				my_mlx_pixel_put(&img, pix, y, game->p.C);
 			else
 			{
