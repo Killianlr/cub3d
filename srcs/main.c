@@ -121,14 +121,12 @@ int main(int ac, char **av)
 	set_mlx(&mlx);
 	if (mem_set(&p, &mlx))
 		return (1);
-	printf("avant parsing \n");
 	if (parsing(&p, av[1]))
 	{
-		ft_end(&game);
+		// ft_end(&game);
 		return (1);
 	}
 	set_texture(&p);
-	printf("parsing crash pas");
 	game.map = p.map;
 	game.player = (t_p *)malloc(sizeof(t_p));
 	game.mlx = mlx;

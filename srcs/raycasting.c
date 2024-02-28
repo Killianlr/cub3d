@@ -68,15 +68,8 @@ int	color_texture(t_img *img, float wallx, int y, int hauteur_mur, t_ray *ray)
 		texx = img->width - texx - 1;
 	if (ray->side == 1 && ray->diry < 0)
 		texx = img->width - texx - 1;
-	// printf("ratio = %f : y = %d : hautuermur = %d\n", ratio, y, hauteur_mur);
-	// per_x = sqrt(per_x * per_x);
-	// printf("y = %d\n", y);
-	// printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
 	per_y = (float)y / (float)hauteur_mur;
 	text_y = (float)img->height * per_y;
-	// printf("w = %d : h = %d\n", img->width, img->height);
-	// printf("x = %f : y = %f\n", per_x, per_y);
-	// printf("text_x = %d : text_y = %d\n", text_x, text_y);
 	return (my_mlx_pixel_get(img, texx, text_y));
 }
 
@@ -102,20 +95,6 @@ int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur, t_p *player)
 		else
 			return (color_texture(game->p.NO, wallx, y, hauteur_mur, ray));
 	}
-	// if (ray->side)
-	// {
-	// 	if (ray->stepy < 0)
-	// 		return (VERT_WEST);
-	// 	else
-	// 		return (ROSE_EAST);
-	// }
-	// else
-	// {
-	// 	if (ray->stepx < 0)
-	// 		return (JAUNE_SOUTH);
-	// 	else
-	// 		return (ROUGE_NORTH);
-	// }
 }
 
 void	check_dir(t_ray *ray, t_p *player)
@@ -214,11 +193,7 @@ void    render_3d(t_g *game, t_mlx *mlx)
 			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
 				my_mlx_pixel_put(&img, pix, y, game->p.C);
 			else
-			{
-				// recuperer le x et y de limage, 
 				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur, game->player));
-
-			}
 			y++;
 		}
 		pix++;

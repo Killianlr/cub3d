@@ -132,7 +132,43 @@ int	error(char *msg, t_pars *p);
 
 /*--------------collision.c--------------*/
 
+/*--------------parsing.c--------------*/
+
 int		parsing(t_pars *p, char *file);
+
+/*--------------parsing_utiles.c--------------*/
+
+char 	*get_id(char *line);
+int		ft_strlen_tab(char **tab);
+int		check_line_space(char *line);
+int		check_file_is_cub(char *file);
+int		ft_strlen_c(char *str, char c);
+
+/*--------------parsing_data_img.c--------------*/
+
+int		get_texture(char *line, t_pars *p, char *id, int elem);
+int		set_data_img(int elem, char *path, t_pars *p);
+int		set_data_texture(char *line, t_pars *p, int e);
+
+/*--------------parsing_data_color.c--------------*/
+
+int		get_color(char *line, t_pars *p, char c, int elem);
+int		catch_value_color(char *line, int idx);
+
+/*--------------parsing_map.c--------------*/
+
+int		get_map(char *line, int fd, t_pars *p);
+int		parsing_map(char *line, t_pars *p);
+int		create_map(t_pars *p, char *mapy);
+void	set_map(char **map, t_pars *p, char *mapy);
+
+/*--------------parsing_check.c--------------*/
+
+int		check_line_is_empty(char *line);
+int		check_is_map(char *line);
+int		check_char_map(char c, t_pars *p, int i, int len);
+int		check_id(char *id);
+int		check_element(char *line, t_pars *p, int elem);
 
 /*--------------end.c--------------*/
 
