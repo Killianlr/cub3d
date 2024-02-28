@@ -57,42 +57,50 @@ void	create_image(t_img *img, t_mlx *mlx)
 				&img->line_length, &img->endian);
 }
 
-int	color_texture(t_img *img, float precision, int y, int hauteur_mur)
+int	color_texture(t_img *img, float wallx, int y, int hauteur_mur, t_ray *ray)
 {
-	float	per_x;
 	float	per_y;
-	int		text_x;
 	int		text_y;
+	int		texx;
 
+	texx = (int)(wallx * (float)img->width);
+	if (ray->side == 0 && ray->dirx > 0)
+		texx = img->width - texx - 1;
+	if (ray->side == 1 && ray->diry < 0)
+		texx = img->width - texx - 1;
 	// printf("ratio = %f : y = %d : hautuermur = %d\n", ratio, y, hauteur_mur);
-	per_x = precision - floor(precision);
 	// per_x = sqrt(per_x * per_x);
 	// printf("y = %d\n", y);
 	// printf("y = %d : hauteurmur = %d\n", y, hauteur_mur);
 	per_y = (float)y / (float)hauteur_mur;
-	text_x = (float)img->width * per_x;
 	text_y = (float)img->height * per_y;
 	// printf("w = %d : h = %d\n", img->width, img->height);
 	// printf("x = %f : y = %f\n", per_x, per_y);
 	// printf("text_x = %d : text_y = %d\n", text_x, text_y);
-	return (my_mlx_pixel_get(img, text_x, text_y));
+	return (my_mlx_pixel_get(img, texx, text_y));
 }
 
-int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
+int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur, t_p *player)
 {
+	float	wallx;
+
 	if (ray->side)
 	{
+		wallx = player->posx + ray->perpualldist * ray->dirx;
+		wallx -= floor(wallx);
 		if (ray->stepy < 0)
-			return (color_texture(game->p.WE, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.WE, wallx, y, hauteur_mur, ray));
 		else
-			return (color_texture(game->p.EA, -ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.EA, wallx, y, hauteur_mur, ray));
 	}
 	else
 	{
+		wallx = player->posy + ray->perpualldist * ray->diry;
+		wallx -= floor(wallx);
 		if (ray->stepx < 0)
-			return (color_texture(game->p.SO, -ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.SO, wallx, y, hauteur_mur, ray));
 		else
-			return (color_texture(game->p.NO, ray->precision, y, hauteur_mur));
+			return (color_texture(game->p.NO, wallx, y, hauteur_mur, ray));
 	}
 	// if (ray->side)
 	// {
@@ -134,30 +142,7 @@ void	check_dir(t_ray *ray, t_p *player)
 	}
 }
 
-void	fonction(int side, t_ray *ray, t_p *player)
-{
-	float	distance;
-	float	steps;
-	float	pos_wall;
-
-	if (side == 0)
-	{
-		distance = player->posx - ray->mapx;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->dirx;
-		pos_wall = ray->diry * steps;
-	}
-	else
-	{
-		distance = player->posy - ray->mapy;
-		// distance = sqrt(distance * distance);
-		steps = distance / ray->diry;
-		pos_wall = ray->dirx * steps;
-	}
-	ray->precision = pos_wall;
-}
-
-void	check_wall(t_ray *ray, char **map, t_p *player)
+void	check_wall(t_ray *ray, char **map)
 {
 	int hit;
 	int	intmapy;
@@ -184,7 +169,6 @@ void	check_wall(t_ray *ray, char **map, t_p *player)
 		if (map[intmapx][intmapy] == '1')
 			hit = 1;
 	}
-	fonction(ray->side, ray, player);
 }
 
 float	set_raycasting(t_ray *ray, t_p *player, char **map)
@@ -198,7 +182,7 @@ float	set_raycasting(t_ray *ray, t_p *player, char **map)
 	ray->deltadistx = sqrt(1 + (pow(ray->diry, 2) / pow(ray->dirx, 2)));
 	ray->deltadisty = sqrt(1 + (pow(ray->dirx, 2) / pow(ray->diry, 2)));
 	check_dir(ray, player);
-	check_wall(ray, map, player);
+	check_wall(ray, map);
 	if (ray->side == 0)
 		perpualldist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
 	else
@@ -232,7 +216,7 @@ void    render_3d(t_g *game, t_mlx *mlx)
 			else
 			{
 				// recuperer le x et y de limage, 
-				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur));
+				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur, game->player));
 
 			}
 			y++;
