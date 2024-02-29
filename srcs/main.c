@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/29 14:11:09 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:18:21 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,6 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	ft_end_2(game);
-	// printf("good !\n");
+	printf("good !\n");
 	return (0);
 }
