@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:56:04 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/26 11:00:33 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/29 11:16:48 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	parsing(t_pars *p, char *file)
 		return (printf("Error\nWrong extentions, cub3d expected .cub\n"));
 	p->fd = open(file, O_RDONLY);
 	if (p->fd <= 0)
-		return (error("File unexiste or unaccess !", p));
+		return (error("File unexiste or unaccess !"));
 	line = get_next_line(p->fd, 0);
 	if (!line)
-		return (error("file empty !", p));
+		return (error("file empty !"));
 	elem = 0;
 	while (line)
 	{

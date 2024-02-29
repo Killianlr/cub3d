@@ -22,7 +22,7 @@ int	catch_value_color(char *line, int idx)
 	if (idx)
 		return (-1);
 	len = ft_strlen_c(&line[i], ',');
-	if (len > 3)
+	if (len > 3 || len == 0)
 		return (-1);
 	nb = malloc(sizeof(char) * (len + 2));
 	if (!nb)
@@ -32,7 +32,10 @@ int	catch_value_color(char *line, int idx)
 	nb[j] = 0;
 	ret = ft_atoi(nb); // check si + 255
 	if (ret > 255 || ret < 0)
+	{
+		free(nb);
 		return (-1);
+	}
 	free(nb);
 	return (ret);
 }
@@ -48,7 +51,7 @@ int	get_color(char *line, t_pars *p, char c, int elem)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (line[i] != c)
-		return (error("Wrong identifiant 1 !", p));
+		return (error("Wrong identifiant 1 !"));
 	i++;
 	while (line[i] && line[i] == ' ')
 		i++;
@@ -59,17 +62,17 @@ int	get_color(char *line, t_pars *p, char c, int elem)
 	// printf("g = %d\n", g);
 	// printf("b = %d\n", b);
 	if (r < 0 || g < 0 || b < 0)
-		return (error("Invalid RGB", p));
+		return (error("Invalid RGB"));
 	if (elem == 5)
 	{
 		if (p->F)
-			return (error("F already set !", p));
+			return (error("F already set !"));
 		p->F = create_trgb(255, r, g, b);
 	}
 	else
 	{
 		if (p->C)
-			return (error("C already set !", p));
+			return (error("C already set !"));
 		p->C = create_trgb(255, r, g, b);
 	}
 	return (0);

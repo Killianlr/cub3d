@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 19:50:16 by flavian          ###   ########.fr       */
+/*   Updated: 2024/02/29 11:46:56 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ typedef struct s_pars
 	void	*mlx_ptr;
 	int		player;
 	int		fd;
+	int		iNO;
+	int		iWE;
+	int		iEA;
+	int		iSO;
 }				t_pars;
 
 typedef	struct s_minimap
@@ -121,14 +125,13 @@ typedef struct s_game
 {
 	t_p		*player;
 	t_ray	ray;
-	t_mlx	mlx;
-	char	**map;
-	t_pars	p;
+	t_mlx	*mlx;
+	t_pars	*p;
 }				t_g;
 
 /*--------------main.c--------------*/
 
-int	error(char *msg, t_pars *p);
+int	error(char *msg);
 
 /*--------------collision.c--------------*/
 

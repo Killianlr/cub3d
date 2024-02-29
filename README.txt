@@ -1,3 +1,1 @@
-test
-
-perpual plus grand quand le mur les plus loin
+attention a bien mlx_destroy_image si l'un crash

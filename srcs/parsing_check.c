@@ -8,13 +8,13 @@ int	check_element(char *line, t_pars *p, int elem)
 
 	id = NULL;
 	if (elem < 7 && check_is_map(line))
-		return (error("Missing elements !", p));
+		return (error("Missing elements !"));
 	if (elem < 7 && check_line_space(line))
-	 	return (error("Invalid data !", p));
+	 	return (error("Invalid data !"));
 	if (elem > 7)
 	{
 		//free map
-		return (error("To much element in this file !", p));
+		return (error("To much element in this file !"));
 	}
 	id = get_id(line);
 	if (!id)
@@ -22,7 +22,7 @@ int	check_element(char *line, t_pars *p, int elem)
 	e = check_id(id);
 	free(id);
 	if (!e)
-		return (error("Wrong identifiant 3 !", p));
+		return (error("Wrong identifiant 3 !"));
 	if (set_data_texture(line, p, e))
 		return (1);
 	return (0);
@@ -50,7 +50,7 @@ int	check_char_map(char c, t_pars *p, int i, int len)
 	if ((i == 0 && c == '0') || (i == len && c == '0'))
 	{
 		printf("Error\n");
-		printf("map unclose !\n");
+		printf("map unclose 3!\n");
 		return (0);
 	}
 	if (c == '1' || c == '0')
@@ -68,7 +68,7 @@ int	check_char_map(char c, t_pars *p, int i, int len)
 		return (1);
 	}
 	printf("Error\n");
-	printf("Invalid caractere in map !");
+	printf("Invalid caractere in map : %c\n!", c);
 	return (0);
 }
 

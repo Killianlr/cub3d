@@ -70,7 +70,7 @@ char *get_id(char *line)
 	c = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
-	while (line[i] != ' ')
+	while (line[i] && line[i] != ' ')
 	{
 		i++;
 		c++;
