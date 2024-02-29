@@ -175,7 +175,7 @@ int		check_element(char *line, t_pars *p, int elem);
 
 /*--------------end.c--------------*/
 
-int		ft_end(t_g *game);
+void	ft_end_2(t_g *game);
 void	free_tab(char **tab);
 void	free_t_pars(t_pars *p);
 

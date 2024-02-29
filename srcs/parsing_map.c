@@ -113,10 +113,10 @@ int	check_vertical_open(char **map, int i)
 		{
 			if (j > 0 && map[j - 1][i] && map[j - 1][i] != '1' && map[j][i] == ' ')
 				return (1);
-			printf("map[%d] = %s\n", j, map[j]);
+			// printf("map[%d] = %s\n", j, map[j]);
 			while (map[j][i] && map[j][i] == ' ')
 				j++;
-			printf("map[%d] = %s\n", j, map[j]);
+			// printf("map[%d] = %s\n", j, map[j]);
 			if (!map[j][i])
 				return (0);
 			else if (map[j][i] != '1')
@@ -150,7 +150,7 @@ int	check_verti_line(char **map, char c, int j, int i)
 	// printf("c = %c\n", c);
 	// if (j == 2 || j == 3)
 	// 	printf("map[%d] : i = %d, strlen = %d , c = %c\n", j, i, (int)ft_strlen(map[j]), c);
-	printf("j = %d : i = %d : c = %c\n", j, i, c);
+	// printf("j = %d : i = %d : c = %c\n", j, i, c);
 	if ((j > 0 && map[j - 1][i] == ' ' && c == '0') ||
 		(j == 0 && c == '0'))
 		return (printf("map ouvert par le haut 1 !\n"));
@@ -161,7 +161,7 @@ int	check_verti_line(char **map, char c, int j, int i)
 		return (printf("map ouvert par le bas ! 1 \n"));
 	else if (j < len_tab && i > ((int)ft_strlen(map[j + 1]) - 2) && c == '0')
 	{
-		printf("map[j] = %s && c = %c\n", map[j], c);
+		// printf("map[j] = %s && c = %c\n", map[j], c);
 		return (printf("map ouvert par le bas ! 2 \n"));
 	}
 	return (0);
@@ -193,15 +193,11 @@ int	check_map_is_fucking_open(char **map)
 
 int	check_map_is_open(char **map)
 {
-	int	i;
-	int	max_len_i;
 	int	len_tab;
 
-	i = 0;
 	len_tab = ft_strlen_tab(map) - 1;
 	if (same_char_line(map[0], '1') || same_char_line(map[len_tab], '1'))
 		return (1);
-	max_len_i = find_max_len_i(map);
 	if (check_map_is_fucking_open(map))
 		return (1);
 	// while (i < max_len_i)

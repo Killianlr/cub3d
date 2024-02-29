@@ -38,7 +38,7 @@ void    find_player_pos(t_p *player, char **map)
         y = 0;
         while (map[x][y])
         {
-            if (map[x][y] != '1' && map[x][y] != '0')
+            if (map[x][y] != '1' && map[x][y] != '0' && map[x][y] != ' ')
 			{
                 i = 1;
 				player->angle = get_angle(map[x][y]);

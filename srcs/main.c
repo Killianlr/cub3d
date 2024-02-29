@@ -131,12 +131,21 @@ int	mem_set(t_g *game)
 		free(game);
 		return (1);
 	}
+	game->player = malloc(sizeof(t_p));
+	if (!game->player)
+	{
+		free(game->mlx);
+		free(game->p);
+		free(game);
+		return (1);
+	}
 	i = set_texture_image(game->p);
 	if (i)
 	{
 		free_img(i, game->p);
 		free(game->mlx);
 		free(game->p);
+		free(game->player);
 		free(game);
 		return (1);
 	}
@@ -199,7 +208,9 @@ void	ft_end_2(t_g *game)
 	mlx_destroy_display(game->mlx->mlx_ptr);
 	free(game->mlx->mlx_ptr);
 	free(game->mlx);
+	free(game->player);
 	free(game);
+	exit(0);
 }
 
 int	main(int ac, char **av)
@@ -218,6 +229,12 @@ int	main(int ac, char **av)
 		ft_end_2(game);
 		return (1);
 	}
+	set_texture(game->p);
+	find_player_pos(game->player, game->p->map);
+	printf("player pos x = %f, y = %f\n", game->player->posx, game->player->posy);
+	mlx_key_hook(game->mlx->win_ptr, &ft_input, game);
+	render_3d(game, game->mlx);
+	mlx_loop(game->mlx->mlx_ptr);
 	ft_end_2(game);
 	printf("good !\n");
 	return (0);
