@@ -6,7 +6,7 @@
 /*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:16:15 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/01 13:20:24 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ int	ft_end_2(t_g *game)
 	free(game->mlx->mlx_ptr);
 	free(game->mlx);
 	free(game->player);
+	free(game->ev);
 	free(game);
 	exit(0);
 	return (1);
