@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:32:17 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:50:09 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,52 +21,51 @@ int	handle_no_event(void *data)
 
 void	mpc_go_up(t_g *game)
 {
-	if (collision(game, game->player->posx + (cos(game->player->angle) / 10)
-		, game->player->posy + (sin(game->player->angle) / 10)))
+	if (collision(game, game->player->posx + (cos(game->player->angle) / 20)
+		, game->player->posy + (sin(game->player->angle) / 20)))
 	{
-		game->player->posx += cos(game->player->angle) / 10;
-		game->player->posy += sin(game->player->angle) / 10;
+		game->player->posx += cos(game->player->angle) / 20;
+		game->player->posy += sin(game->player->angle) / 20;
 	}
 	render_3d(game, game->mlx);
 }
 
 void	mpc_go_down(t_g *game)
 {
-	if (collision(game, game->player->posx - (cos(game->player->angle) / 10)
-		, game->player->posy - (sin(game->player->angle) / 10)))
+	if (collision(game, game->player->posx - (cos(game->player->angle) / 20)
+		, game->player->posy - (sin(game->player->angle) / 20)))
 	{
-		game->player->posx -= cos(game->player->angle) / 10;
-		game->player->posy -= sin(game->player->angle) / 10;
+		game->player->posx -= cos(game->player->angle) / 20;
+		game->player->posy -= sin(game->player->angle) / 20;
 	}
 	render_3d(game, game->mlx);
 }
 
 void	mpc_go_left(t_g *game)
 {
-	if (collision(game, game->player->posx + (cos(game->player->angle + (M_PI / 2)) / 10)
-		, game->player->posy + (sin(game->player->angle + (M_PI / 2)) / 10)))
+	if (collision(game, game->player->posx + (cos(game->player->angle + (M_PI / 2)) / 20)
+		, game->player->posy + (sin(game->player->angle + (M_PI / 2)) / 20)))
 	{
-		game->player->posx += cos(game->player->angle + (M_PI / 2)) / 10;
-		game->player->posy += sin(game->player->angle + (M_PI / 2)) / 10;
+		game->player->posx += cos(game->player->angle + (M_PI / 2)) / 20;
+		game->player->posy += sin(game->player->angle + (M_PI / 2)) / 20;
 	}
 	render_3d(game, game->mlx);
 }
 
 void	mpc_go_right(t_g *game)
 {
-	if (collision(game, game->player->posx + (cos(game->player->angle - (M_PI / 2)) / 10)
-		, game->player->posy + (sin(game->player->angle - (M_PI / 2)) / 10)))
+	if (collision(game, game->player->posx + (cos(game->player->angle - (M_PI / 2)) / 20)
+		, game->player->posy + (sin(game->player->angle - (M_PI / 2)) / 20)))
 	{
-		game->player->posx += cos(game->player->angle - (M_PI / 2)) / 10;
-		game->player->posy += sin(game->player->angle - (M_PI / 2)) / 10;
+		game->player->posx += cos(game->player->angle - (M_PI / 2)) / 20;
+		game->player->posy += sin(game->player->angle - (M_PI / 2)) / 20;
 	}
 	render_3d(game, game->mlx);
 }
 
 void	mpc_turn_left(t_g *game)
 {
-	
-	game->player->angle += M_PI / 12;
+	game->player->angle += M_PI / 36;
 	if (game->player->angle >= (2 * M_PI) - 0.1)
 		game->player->angle = 0;
 	render_3d(game, game->mlx);
@@ -74,7 +73,7 @@ void	mpc_turn_left(t_g *game)
 
 void	mpc_turn_right(t_g *game)
 {
-	game->player->angle -= M_PI / 12;
+	game->player->angle -= M_PI / 36;
 	if (game->player->angle <= 0.1)
 		game->player->angle = 2 * M_PI;
 	render_3d(game, game->mlx);

@@ -22,7 +22,10 @@ int	check_element(char *line, t_pars *p, int elem)
 	e = check_id(id);
 	free(id);
 	if (!e)
+	{
+		printf("WRONG ID\n");
 		return (error("Wrong identifiant 3 !"));
+	}
 	if (set_data_texture(line, p, e))
 		return (1);
 	return (0);

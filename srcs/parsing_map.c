@@ -117,13 +117,13 @@ int	check_verti_line(char **map, char c, int j, int i)
 
 	len_tab = ft_strlen_tab(map) - 1;
 	if (j > 0)
-		len_j_less = (int)ft_strlen(map[j - 1]) - 2;
+		len_j_less = (int)ft_strlen(map[j - 1]) - 1;
 	else 
-		len_j_less = (int)ft_strlen(map[j]) - 2;
+		len_j_less = (int)ft_strlen(map[j]) - 1;
 	if (j < len_tab)
-		len_j_more = (int)ft_strlen(map[j + 1]) - 2;
+		len_j_more = (int)ft_strlen(map[j + 1]) - 1;
 	else
-		len_j_more = (int)ft_strlen(map[j]) - 2;
+		len_j_more = (int)ft_strlen(map[j]) - 1;
 	// if (i == 0)
 	// {
 	// 	printf("map[%d] = %s", j, map[j]);
@@ -137,6 +137,7 @@ int	check_verti_line(char **map, char c, int j, int i)
 		(j == 0 && c == '0'))
 		return (printf("map ouvert par le haut 1 !\n"));
 	// printf("2 : i = %d\n", i);
+	// printf("i = %d ; len_more = %d\n", i, len_j_more);
 	if (j < len_tab && i > len_j_more && check_char(c))
 		return (printf("map ouvert par le bas ! 2 \n"));
 	else if ((i < len_j_more && (j < len_tab && map[j + 1][i] == ' ' && check_char(c))) ||

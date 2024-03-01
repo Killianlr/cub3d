@@ -45,7 +45,7 @@ int	check_line_space(char *line)
 			i++;
 		i++;
 	}
-	if (s >= 3)
+	if (s >= 3 || s < 1)
 		return (1);
 	return (0);
 }

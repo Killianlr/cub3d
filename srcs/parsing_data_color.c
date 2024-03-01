@@ -30,7 +30,7 @@ int	catch_value_color(char *line, int idx)
 	while (line[i] && line[i] != ',')
 		nb[j++] = line[i++];
 	nb[j] = 0;
-	ret = ft_atoi(nb); // check si + 255
+	ret = ft_atoi(nb);
 	if (ret > 255 || ret < 0)
 	{
 		free(nb);

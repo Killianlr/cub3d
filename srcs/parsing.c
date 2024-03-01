@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:56:04 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 14:12:46 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:57:05 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_scene(t_pars *p)
 int	parsing(t_pars *p, char *file)
 {
 	char	*line;
-
+	int		elem;
 	if (check_file_is_cub(file))
 		return (printf("Error\nWrong extentions, cub3d expected .cub\n"));
 	p->fd = open(file, O_RDONLY);
@@ -53,18 +53,19 @@ int	parsing(t_pars *p, char *file)
 	line = get_next_line(p->fd, 0);
 	if (!line)
 		return (error("file empty !"));
+	elem = 0;
 	while (line)
 	{
 		if (check_line_is_empty(line))
 		{
-			p->elem++;
-			if (p->elem < 7 && check_element(line, p, p->elem))
+			elem++;
+			if (elem < 7 && check_element(line, p, elem))
 			{
 				free(line);
 				get_next_line(p->fd, 1);
 				return (1);
 			}
-			else if (p->elem > 6)
+			else if (elem > 6)
 			{
 				if (get_map(line, p->fd, p))
 					return (1);

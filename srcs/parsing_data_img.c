@@ -3,6 +3,7 @@
 
 int	set_data_texture(char *line, t_pars *p, int e)
 {
+	p->elem = e;
 	if (e == 1)
 		return (get_texture(line, p, e));
 	else if (e == 2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 14:12:06 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:14:29 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,10 @@ int	main(int ac, char **av)
 	if (mem_set(game))
 		return (error("Malloc failed !"));
 	if (parsing(game->p, av[1]))
+	{
+		printf("FAIL PARSING\n");
 		return (ft_end_1(game));
+	}
 	set_ev(game);
 	set_texture(game->p);
 	find_player_pos(game->player, game->p->map);

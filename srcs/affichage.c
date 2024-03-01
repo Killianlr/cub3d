@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   affichage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:02:03 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 14:02:58 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:47:14 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ int	color_texture(t_img *img, float wallx, int y, int hauteur_mur, t_ray *ray)
 {
 	float	per_y;
 	int		text_y;
-	int		texx;
+	int		text_x;
 
-	texx = (int)(wallx * (float)img->width);
+	text_x = (int)(wallx * (float)img->width);
 	if (ray->side == 0 && ray->dirx > 0)
-		texx = img->width - texx - 1;
+		text_x = img->width - text_x - 1;
 	if (ray->side == 1 && ray->diry < 0)
-		texx = img->width - texx - 1;
+		text_x = img->width - text_x - 1;
 	per_y = (float)y / (float)hauteur_mur;
 	text_y = (float)img->height * per_y;
-	return (my_mlx_pixel_get(img, texx, text_y));
+	return (my_mlx_pixel_get(img, text_x, text_y));
 }
