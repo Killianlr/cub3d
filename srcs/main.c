@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/29 14:18:21 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:16:15 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void set_texture(t_pars *p)
 //     return (0);
 // }
 
-void	ft_end_2(t_g *game)
+int	ft_end_2(t_g *game)
 {
 	// free_img(0, game->p);
 	free_t_pars(game->p);
@@ -211,6 +211,23 @@ void	ft_end_2(t_g *game)
 	free(game->player);
 	free(game);
 	exit(0);
+	return (1);
+}
+
+void	set_ev(t_g *game)
+{
+	t_ev	*ev;
+
+	ev = malloc(sizeof(t_ev));
+	if (!ev)
+		return ;
+	ev->mv_fwd = 0;
+	ev->mv_bckwd = 0;
+	ev->mv_left = 0;
+	ev->mv_right = 0;
+	ev->rot_left = 0;
+	ev->rot_right = 0;
+	game->ev = ev;
 }
 
 int	main(int ac, char **av)
@@ -229,10 +246,15 @@ int	main(int ac, char **av)
 		ft_end_2(game);
 		return (1);
 	}
+	set_ev(game);
 	set_texture(game->p);
 	find_player_pos(game->player, game->p->map);
-	printf("player pos x = %f, y = %f\n", game->player->posx, game->player->posy);
-	mlx_key_hook(game->mlx->win_ptr, &ft_input, game);
+	mlx_hook(game->mlx->win_ptr, ClientMessage, NoEventMask, ft_end_2, game);
+	mlx_hook (game->mlx->win_ptr, 2, 1L << 0, key_pressed, game);
+	mlx_loop_hook(game->mlx->mlx_ptr, key_action, game);
+	mlx_hook (game->mlx->win_ptr, 3, 1L << 1, key_release, game);
+	// printf("player pos x = %f, y = %f\n", game->player->posx, game->player->posy);
+	// mlx_key_hook(game->mlx->win_ptr, &ft_input, game);
 	render_3d(game, game->mlx);
 	mlx_loop(game->mlx->mlx_ptr);
 	ft_end_2(game);

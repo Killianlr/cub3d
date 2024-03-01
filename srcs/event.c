@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/15 14:33:26 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:15:41 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,77 @@ void	mpc_turn_right(t_g *game)
 	render_3d(game, game->mlx);
 }
 
-int	ft_input(int keysym, t_g *game)
+int	key_action(t_g *game)
+{
+	if (game->ev->mv_fwd == 1)
+		mpc_go_up(game);
+	if (game->ev->mv_left == 1)
+		mpc_go_left(game);
+	if (game->ev->mv_bckwd == 1)
+		mpc_go_down(game);
+	if (game->ev->mv_right == 1)
+		mpc_go_right(game);
+	if (game->ev->rot_right == 1)
+		mpc_turn_right(game);
+	if (game->ev->rot_left == 1)
+		mpc_turn_left(game);
+	return (0);
+}
+
+int	key_release(int keysym, t_g *game)
+{
+	if (keysym == XK_w)
+		game->ev->mv_fwd = 0;
+	if (keysym == XK_a)
+		game->ev->mv_left = 0;
+	if (keysym == XK_s)
+		game->ev->mv_bckwd = 0;
+	if (keysym == XK_d)
+		game->ev->mv_right = 0;
+	if (keysym == 65363)
+		game->ev->rot_right = 0;
+	if (keysym == 65361)
+		game->ev->rot_left = 0;
+	return (0);
+}
+
+int	key_pressed(int keysym, t_g *game)
 {
 	if (keysym == XK_Escape)
 		ft_end_2(game);
 	if (keysym == XK_w)
-		mpc_go_up(game);
+		game->ev->mv_fwd = 1;
 	if (keysym == XK_a)
-		mpc_go_left(game);
+		game->ev->mv_left = 1;
 	if (keysym == XK_s)
-		mpc_go_down(game);
+		game->ev->mv_bckwd = 1;
 	if (keysym == XK_d)
-		mpc_go_right(game);
+		game->ev->mv_right = 1;
 	if (keysym == 65363)
-		mpc_turn_right(game);
+		game->ev->rot_right = 1;
 	if (keysym == 65361)
-		mpc_turn_left(game);
+		game->ev->rot_left = 1;
 	return (0);
 }
+
+// int	ft_input(int keysym, t_g *game)
+// {
+// 	if (keysym == XK_Escape)
+// 		ft_end_2(game);
+// 	if (keysym == XK_w)
+// 		mpc_go_up(game);
+// 	if (keysym == XK_a)
+// 		mpc_go_left(game);
+// 	if (keysym == XK_s)
+// 		mpc_go_down(game);
+// 	if (keysym == XK_d)
+// 		mpc_go_right(game);
+// 	if (keysym == 65363)
+// 		mpc_turn_right(game);
+// 	if (keysym == 65361)
+// 		mpc_turn_left(game);
+// 	return (0);
+// }
 
 // int	ft_input(int keysym, t_dis *display)
 // {

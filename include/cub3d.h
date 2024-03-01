@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/29 11:46:56 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:15:42 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,23 @@ typedef struct s_ray
 	float	perpualldist;
 }				t_ray;
 
+typedef	struct s_event
+{
+	int	mv_fwd;
+	int	mv_bckwd;
+	int	mv_left;
+	int	mv_right;
+	int	rot_left;
+	int	rot_right;
+}			t_ev;
+
 typedef struct s_game
 {
 	t_p		*player;
 	t_ray	ray;
 	t_mlx	*mlx;
 	t_pars	*p;
+	t_ev	*ev;
 }				t_g;
 
 /*--------------main.c--------------*/
@@ -175,13 +186,16 @@ int		check_element(char *line, t_pars *p, int elem);
 
 /*--------------end.c--------------*/
 
-void	ft_end_2(t_g *game);
+int		ft_end_2(t_g *game);
 void	free_tab(char **tab);
 void	free_t_pars(t_pars *p);
 
 /*--------------event.c--------------*/
 
-int		ft_input(int keysym, t_g *game);
+// int		ft_input(int keysym, t_g *game);
+int		key_pressed(int keysym, t_g *game);
+int		key_release(int keysym, t_g *game);
+int		key_action(t_g *game);
 int		handle_no_event(void *data);
 
 /*--------------map.c--------------*/
