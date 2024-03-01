@@ -6,22 +6,40 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/29 11:48:55 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:43:17 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-// int	ft_end(t_g *game)
-// {
-// 	free(game->player);
-// 	mlx_destroy_window(game->mlx.mlx_ptr, game->mlx.win_ptr);
-// 	mlx_destroy_display(game->mlx.mlx_ptr);
-// 	// free_t_pars(&game->p);
-// 	free(game->mlx.mlx_ptr);
-// 	exit(0);
-// 	return (0);
-// }
+int	ft_end_1(t_g *game)
+{
+	free_t_pars(game->p);
+	free(game->p);
+	mlx_destroy_window(game->mlx->mlx_ptr, game->mlx->win_ptr);
+	mlx_destroy_display(game->mlx->mlx_ptr);
+	free(game->mlx->mlx_ptr);
+	free(game->mlx);
+	free(game->player);
+	free(game);
+	exit(1);
+	return (0);
+}
+
+int	ft_end_0(t_g *game)
+{
+	free_t_pars(game->p);
+	free(game->p);
+	mlx_destroy_window(game->mlx->mlx_ptr, game->mlx->win_ptr);
+	mlx_destroy_display(game->mlx->mlx_ptr);
+	free(game->mlx->mlx_ptr);
+	free(game->mlx);
+	free(game->player);
+	free(game->ev);
+	free(game);
+	exit(0);
+	return (0);
+}
 
 void	free_tab(char **tab)
 {

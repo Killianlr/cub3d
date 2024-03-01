@@ -76,10 +76,7 @@ char *get_id(char *line)
 		c++;
 	}
 	if (c > 2)
-	{
-		printf("Wrong identifiant 2!\n");
 		return (NULL);
-	}
 	id = malloc(sizeof(char) * (c + 1));
 	if (!id)
 		return (NULL);

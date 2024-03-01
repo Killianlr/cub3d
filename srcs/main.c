@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:20:24 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/01 14:12:06 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,6 @@ void	free_img(int i, t_pars *p)
 	}
 }
 
-// int	mem_set(t_pars *p, t_mlx *mlx)
-// {
-// 	int	i;
-
-// 	i = set_texture_image(p);
-// 	if (i)
-// 	{
-// 		free_img(i, p);
-// 		return (1);
-// 	}
-// 	p->EA->img = NULL;
-// 	p->NO->img = NULL;
-// 	p->WE->img = NULL;
-// 	p->SO->img = NULL;
-// 	p->C = 0;
-// 	p->F = 0;
-// 	p->map = NULL;
-//     p->mlx_ptr = mlx->mlx_ptr;
-// 	p->player = 0;
-// 	p->fd = 0;
-// 	return (0);
-// }
-
 void	init_var_struct(t_g *game)
 {
 	game->p->EA->img = NULL;
@@ -110,6 +87,7 @@ void	init_var_struct(t_g *game)
 	game->p->iSO = 0;
 	game->p->iEA = 0;
 	game->p->iWE = 0;
+	game->p->elem = 0;
 }
 
 int	mem_set(t_g *game)
@@ -166,55 +144,6 @@ void set_texture(t_pars *p)
 				&p->EA->bits_per_pixel, &p->EA->line_length, &p->EA->endian);
 }
 
-// int main(int ac, char **av)
-// {
-// 	t_g		game;
-// 	t_mlx	mlx;
-//     t_pars  p;
-
-//     if (ac == 1)
-// 		return (error("No map !", NULL));
-// 	if (ac > 2)
-// 		return (error("To many arguments !", NULL));
-// 	set_mlx(&mlx);
-// 	if (mem_set(&p, &mlx))
-// 		return (1);
-// 	if (parsing(&p, av[1]))
-// 	{
-// 		// ft_end(&game);
-// 		return (1);
-// 	}
-// 	set_texture(&p);
-// 	game.map = p.map;
-// 	game.player = (t_p *)malloc(sizeof(t_p));
-// 	game.mlx = mlx;
-// 	game.p = p;
-// 	// ft_end(&game);
-// 	// return (0);
-//     find_player_pos(game.player, game.map);
-//     mlx_key_hook(mlx.win_ptr, &ft_input, &game);
-//     render_3d(&game, &game.mlx);
-//     mlx_loop(mlx.mlx_ptr);
-// 	ft_end(&game);
-//     return (0);
-// }
-
-int	ft_end_2(t_g *game)
-{
-	// free_img(0, game->p);
-	free_t_pars(game->p);
-	free(game->p);
-	mlx_destroy_window(game->mlx->mlx_ptr, game->mlx->win_ptr);
-	mlx_destroy_display(game->mlx->mlx_ptr);
-	free(game->mlx->mlx_ptr);
-	free(game->mlx);
-	free(game->player);
-	free(game->ev);
-	free(game);
-	exit(0);
-	return (1);
-}
-
 void	set_ev(t_g *game)
 {
 	t_ev	*ev;
@@ -243,22 +172,16 @@ int	main(int ac, char **av)
 	if (mem_set(game))
 		return (error("Malloc failed !"));
 	if (parsing(game->p, av[1]))
-	{
-		ft_end_2(game);
-		return (1);
-	}
+		return (ft_end_1(game));
 	set_ev(game);
 	set_texture(game->p);
 	find_player_pos(game->player, game->p->map);
-	mlx_hook(game->mlx->win_ptr, ClientMessage, NoEventMask, ft_end_2, game);
+	mlx_hook(game->mlx->win_ptr, ClientMessage, NoEventMask, ft_end_0, game);
 	mlx_hook (game->mlx->win_ptr, 2, 1L << 0, key_pressed, game);
 	mlx_loop_hook(game->mlx->mlx_ptr, key_action, game);
 	mlx_hook (game->mlx->win_ptr, 3, 1L << 1, key_release, game);
-	// printf("player pos x = %f, y = %f\n", game->player->posx, game->player->posy);
-	// mlx_key_hook(game->mlx->win_ptr, &ft_input, game);
 	render_3d(game, game->mlx);
 	mlx_loop(game->mlx->mlx_ptr);
-	ft_end_2(game);
-	printf("good !\n");
+	ft_end_0(game);
 	return (0);
 }

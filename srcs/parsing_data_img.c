@@ -4,24 +4,22 @@
 int	set_data_texture(char *line, t_pars *p, int e)
 {
 	if (e == 1)
-		return (get_texture(line, p, "NO", e));
+		return (get_texture(line, p, e));
 	else if (e == 2)
-		return (get_texture(line, p, "SO", e));
+		return (get_texture(line, p, e));
 	else if (e == 3)
-		return (get_texture(line, p, "WE", e));
+		return (get_texture(line, p, e));
 	else if (e == 4)
-		return (get_texture(line, p, "EA", e));
+		return (get_texture(line, p, e));
 	else if (e == 5)
-	 	return (get_color(line, p, 'F', e));
+	 	return (get_color(line, p, 'F'));
 	else if (e == 6)
-	 	return (get_color(line, p, 'C', e));
+	 	return (get_color(line, p, 'C'));
 	return (0);
 }
 
 int	set_data_img(int elem, char *path, t_pars *p)
 {
-	// printf("path =%s\n", path);
-	// printf("\n");
 	if (elem == 1)
 	{
 		if (p->NO->img != NULL)
@@ -61,13 +59,12 @@ int	set_data_img(int elem, char *path, t_pars *p)
 	return (0);
 }
 
-int	get_texture(char *line, t_pars *p, char *id, int elem)
+int	get_texture(char *line, t_pars *p, int elem)
 {
 	int	i;
 	int	j;
 	char	*path;
 
-	(void) id;
 	i = 0;
 	j = 0;
 	while (line[i] == ' ')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:19:31 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/01 13:32:17 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	key_release(int keysym, t_g *game)
 int	key_pressed(int keysym, t_g *game)
 {
 	if (keysym == XK_Escape)
-		ft_end_2(game);
+		ft_end_0(game);
 	if (keysym == XK_w)
 		game->ev->mv_fwd = 1;
 	if (keysym == XK_a)

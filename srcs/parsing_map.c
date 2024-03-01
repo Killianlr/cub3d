@@ -1,6 +1,15 @@
 
 #include "../include/cub3d.h"
 
+int	check_char(char c)
+{
+	if (c == '0')
+		return (printf("map open\n"));
+	if (c == 'N' || c == 'E' || c == 'W' || c == 'S')
+		return (printf("player out of map \n"));
+	return (0);
+}
+
 void	set_map(char **map, t_pars *p, char *mapy)
 {
 	int	i;
@@ -13,7 +22,6 @@ void	set_map(char **map, t_pars *p, char *mapy)
 	}
 	map[i] = mapy;
 	map[i + 1] = NULL;
-	// free_tab(p->map);
 	free(p->map);
 	p->map = map;
 }
@@ -56,7 +64,8 @@ int	parsing_map(char *line, t_pars *p)
 	len = ft_strlen(line) - 2;
 	while (line[i] && check_char_map(line[i], p, i, len))
 	{
-		if (i > 0 && line[i - 1] == ' ' && line[i] == '0')
+		if ((i > 0 && line[i - 1] == ' ' && check_char(line[i])) ||
+			(i < len && line[i + 1] == ' ' && check_char(line[i])))
 			return (error("map unclosed 1!"));
 		if (i < len && line[i + 1] == '0' && line[i] == ' ')
 			return (error("map unclosed 2!"));
@@ -100,70 +109,40 @@ int	find_max_len_i(char **map)
 	return (len);
 }
 
-int	check_vertical_open(char **map, int i)
-{
-	int	j;
-
-	j = 0;
-	while (map[j])
-	{
-		if (!map[j][i] || map[j][i] != ' ')
-			j++;
-		else
-		{
-			if (j > 0 && map[j - 1][i] && map[j - 1][i] != '1' && map[j][i] == ' ')
-				return (1);
-			// printf("map[%d] = %s\n", j, map[j]);
-			while (map[j][i] && map[j][i] == ' ')
-				j++;
-			// printf("map[%d] = %s\n", j, map[j]);
-			if (!map[j][i])
-				return (0);
-			else if (map[j][i] != '1')
-				return (1);
-			else if (map[j][i] == 'N' || map[j][i] == 'S' || map[j][i] == 'E' || map[j][i] == 'W')
-				return (error("Player out of map !"));
-		}
-	}
-	return (0);
-}
-
-// int	check_hori_line(char **map, char c, int j, int i)
-// {
-// 	int	len_line;
-
-// 	len_line = ft_strlen(map[j]) - 1;
-// 	if ((i > 0 && map[j][i - 1] == ' ' && c == '0') ||
-// 		(i == 0 && c == '0'))
-// 		return (printf("ouvert par la gauche \n"));
-// 	if ((i < len_line && map[j][i + 1] == ' ' && c == '0') ||
-// 		(i == len_line && c == '0'))
-// 		return (printf("ouvert par la droite"));
-// 	return (0);
-// }
-
 int	check_verti_line(char **map, char c, int j, int i)
 {
 	int	len_tab;
+	int	len_j_less;
+	int	len_j_more;
 
 	len_tab = ft_strlen_tab(map) - 1;
-	// printf("c = %c\n", c);
-	// if (j == 2 || j == 3)
-	// 	printf("map[%d] : i = %d, strlen = %d , c = %c\n", j, i, (int)ft_strlen(map[j]), c);
-	// printf("j = %d : i = %d : c = %c\n", j, i, c);
-	if ((j > 0 && map[j - 1][i] == ' ' && c == '0') ||
+	if (j > 0)
+		len_j_less = (int)ft_strlen(map[j - 1]) - 2;
+	else 
+		len_j_less = (int)ft_strlen(map[j]) - 2;
+	if (j < len_tab)
+		len_j_more = (int)ft_strlen(map[j + 1]) - 2;
+	else
+		len_j_more = (int)ft_strlen(map[j]) - 2;
+	// if (i == 0)
+	// {
+	// 	printf("map[%d] = %s", j, map[j]);
+	// 	printf("len_j_less = %d\n", len_j_less);
+	// 	printf("len_j_more = %d\n", len_j_more);
+	// }
+	// printf("1 : i = %d\n", i);
+	if (j > 0 && i > len_j_less && check_char(c))
+		return (printf("map ouvert par le haut 2 !\n"));
+	else if ((i < len_j_less && (j > 0 && map[j - 1][i] == ' ' && check_char(c))) ||
 		(j == 0 && c == '0'))
 		return (printf("map ouvert par le haut 1 !\n"));
-	else if (j > 0 && i > ((int)ft_strlen(map[j - 1]) - 2) && c == '0')
-		return (printf("map ouvert par le haut 2 !\n"));
-	if ((j < len_tab && map[j + 1][i] == ' ' && c == '0') ||
+	// printf("2 : i = %d\n", i);
+	if (j < len_tab && i > len_j_more && check_char(c))
+		return (printf("map ouvert par le bas ! 2 \n"));
+	else if ((i < len_j_more && (j < len_tab && map[j + 1][i] == ' ' && check_char(c))) ||
 		(j == len_tab && c == '0'))
 		return (printf("map ouvert par le bas ! 1 \n"));
-	else if (j < len_tab && i > ((int)ft_strlen(map[j + 1]) - 2) && c == '0')
-	{
-		// printf("map[j] = %s && c = %c\n", map[j], c);
-		return (printf("map ouvert par le bas ! 2 \n"));
-	}
+	// printf("3 : i = %d\n", i);
 	return (0);
 }
 
@@ -173,15 +152,11 @@ int	check_map_is_fucking_open(char **map)
 	int	j;
 
 	j = 0;
-	// printf("map[2] = %s\n", map[2]);
-	// printf("map[3] = %s\n", map[3]);
 	while (map[j])
 	{
 		i = 0;
 		while (map[j][i] && map[j][i] != '\n')
 		{
-			// if (check_hori_line(map, map[j][i], j, i))
-			// 	return (1);
 			if (check_verti_line(map, map[j][i], j, i))
 				return (1);
 			i++;
@@ -200,12 +175,6 @@ int	check_map_is_open(char **map)
 		return (1);
 	if (check_map_is_fucking_open(map))
 		return (1);
-	// while (i < max_len_i)
-	// {
-	// 	if (check_vertical_open(map, i))
-	// 		return (1);
-	// 	i++;
-	// }
 	return (0);
 }
 

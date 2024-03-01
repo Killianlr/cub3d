@@ -40,7 +40,24 @@ int	catch_value_color(char *line, int idx)
 	return (ret);
 }
 
-int	get_color(char *line, t_pars *p, char c, int elem)
+int	set_color(t_pars *p, int r, int g, int b)
+{
+	if (p->elem == 5)
+	{
+		if (p->F)
+			return (error("F already set !"));
+		p->F = create_trgb(255, r, g, b);
+	}
+	else
+	{
+		if (p->C)
+			return (error("C already set !"));
+		p->C = create_trgb(255, r, g, b);
+	}
+	return (0);
+}
+
+int	get_color(char *line, t_pars *p, char c)
 {
 	int	r;
 	int	g;
@@ -58,22 +75,9 @@ int	get_color(char *line, t_pars *p, char c, int elem)
 	r = catch_value_color(&line[i], 0);
 	g = catch_value_color(&line[i], 1);
 	b = catch_value_color(&line[i], 2);
-	// printf("r = %d\n", r);
-	// printf("g = %d\n", g);
-	// printf("b = %d\n", b);
 	if (r < 0 || g < 0 || b < 0)
 		return (error("Invalid RGB"));
-	if (elem == 5)
-	{
-		if (p->F)
-			return (error("F already set !"));
-		p->F = create_trgb(255, r, g, b);
-	}
-	else
-	{
-		if (p->C)
-			return (error("C already set !"));
-		p->C = create_trgb(255, r, g, b);
-	}
+	if (set_color(p, r, g, b))
+		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:36 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/02/24 19:49:57 by flavian          ###   ########.fr       */
+/*   Updated: 2024/03/01 13:34:11 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,3 @@ char **remove_backn(char **map)
 	}
 	return (map);
 }
-
-// char	**get_map_game(void)
-// {
-// 	int	fd;
-// 	char	**map;
-// 	int	i;
-
-// 	fd = open("map/map.cub", O_RDONLY);
-// 	if (fd < 0)
-// 		return (NULL);
-// 	map = malloc(sizeof(char *) * 6);
-// 	if (!map)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i < 6)
-// 	{
-// 		map[i] = get_next_line(fd, 0);
-// 		i++;
-// 	}
-// 	map[i] = NULL;
-// 	map = remove_backn(map);
-// 	return (map);
-// }

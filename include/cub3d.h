@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:15:42 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/01 14:19:07 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_pars
 	int		F;
 	int		C;
 	char	**map;
+	int		elem;
 	void	*mlx_ptr;
 	int		player;
 	int		fd;
@@ -146,6 +147,13 @@ int	error(char *msg);
 
 /*--------------collision.c--------------*/
 
+/*--------------affichage.c--------------*/
+
+int		color_texture(t_img *img, float wallx, int y, int hauteur_mur, t_ray *ray);
+void	create_image(t_img *img, t_mlx *mlx);
+int		my_mlx_pixel_get(t_img *img, int x, int y);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
 /*--------------parsing.c--------------*/
 
 int		parsing(t_pars *p, char *file);
@@ -160,13 +168,13 @@ int		ft_strlen_c(char *str, char c);
 
 /*--------------parsing_data_img.c--------------*/
 
-int		get_texture(char *line, t_pars *p, char *id, int elem);
+int		get_texture(char *line, t_pars *p, int elem);
 int		set_data_img(int elem, char *path, t_pars *p);
 int		set_data_texture(char *line, t_pars *p, int e);
 
 /*--------------parsing_data_color.c--------------*/
 
-int		get_color(char *line, t_pars *p, char c, int elem);
+int		get_color(char *line, t_pars *p, char c);
 int		catch_value_color(char *line, int idx);
 
 /*--------------parsing_map.c--------------*/
@@ -186,7 +194,8 @@ int		check_element(char *line, t_pars *p, int elem);
 
 /*--------------end.c--------------*/
 
-int		ft_end_2(t_g *game);
+int		ft_end_0(t_g *game);
+int		ft_end_1(t_g *game);
 void	free_tab(char **tab);
 void	free_t_pars(t_pars *p);
 
@@ -207,6 +216,7 @@ char **remove_backn(char **map);
 void    find_player_pos(t_p *player, char **map);
 int		create_trgb(int t, int r, int g, int b);
 void	set_mlx(t_mlx *mlx);
+char	*ft_strndup(char *src, int size);
 
 /*--------------raycasting.c--------------*/
 
