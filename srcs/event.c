@@ -12,63 +12,10 @@
 
 #include "../include/cub3d.h"
 
-
 int	handle_no_event(void *data)
 {
 	(void) data;
 	return (0);
-}
-
-void	mpc_go_up(t_g *game)
-{
-	if (collision(game, game->player->posx + (cos(game->player->angle) / 20)
-		, game->player->posy + (sin(game->player->angle) / 20)))
-	{
-		game->player->posx += cos(game->player->angle) / 20;
-		game->player->posy += sin(game->player->angle) / 20;
-	}
-	render_3d(game, game->mlx);
-}
-
-void	mpc_go_down(t_g *game)
-{
-	if (collision(game, game->player->posx - (cos(game->player->angle) / 20)
-		, game->player->posy - (sin(game->player->angle) / 20)))
-	{
-		game->player->posx -= cos(game->player->angle) / 20;
-		game->player->posy -= sin(game->player->angle) / 20;
-	}
-	render_3d(game, game->mlx);
-}
-
-void	mpc_go_left(t_g *game)
-{
-	if (collision(game, game->player->posx + (cos(game->player->angle + (M_PI / 2)) / 20)
-		, game->player->posy + (sin(game->player->angle + (M_PI / 2)) / 20)))
-	{
-		game->player->posx += cos(game->player->angle + (M_PI / 2)) / 20;
-		game->player->posy += sin(game->player->angle + (M_PI / 2)) / 20;
-	}
-	render_3d(game, game->mlx);
-}
-
-void	mpc_go_right(t_g *game)
-{
-	if (collision(game, game->player->posx + (cos(game->player->angle - (M_PI / 2)) / 20)
-		, game->player->posy + (sin(game->player->angle - (M_PI / 2)) / 20)))
-	{
-		game->player->posx += cos(game->player->angle - (M_PI / 2)) / 20;
-		game->player->posy += sin(game->player->angle - (M_PI / 2)) / 20;
-	}
-	render_3d(game, game->mlx);
-}
-
-void	mpc_turn_left(t_g *game)
-{
-	game->player->angle += M_PI / 36;
-	if (game->player->angle >= (2 * M_PI) - 0.1)
-		game->player->angle = 0;
-	render_3d(game, game->mlx);
 }
 
 void	mpc_turn_right(t_g *game)
