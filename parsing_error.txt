@@ -1,4 +1,0 @@
-char for rgb
-parsing map unclose vers le bas
-whitespace after rgb
-2.5 for rgb
