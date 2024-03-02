@@ -9,17 +9,12 @@ int	len_rgb(char *rgb, int check_ws)
 	(void)check_ws;
 	while (rgb[i] && rgb[i] != ',' && rgb[i] != '\n')
 	{
-		// printf("line[i] = %c\n", line[i]);
 		if (!ft_isdigit(rgb[i]))
-		{
-			// printf("ret ft_isdigit\n");
-			return (-1);
 		}
 		i++;
 	}
 	if (i > 3)
 	{
-		// printf("ret i > 3\n");
 		return (-1);
 	}
 	return (i);
@@ -39,7 +34,6 @@ int	catch_value_color(char *line, int idx)
 	check_ws = 0;
 	if (idx == 2)
 		check_ws = 1;
-	// printf("1\n");
 	while (idx && line[i])
 	{
 		while (line[i] && line[i] != ',')
@@ -50,15 +44,12 @@ int	catch_value_color(char *line, int idx)
 	}
 	if (idx)
 		return (-1);
-	// printf("2\n");
 	len = len_rgb(&line[i], check_ws);
 	if (len == -1)
 		return (-1);
-	// printf("3\n");
 	nb = malloc(sizeof(char) * (len + 2));
 	if (!nb)
 		return (-1);
-	// printf("4\n");
 	while (line[i] && line[i] != ',')
 		nb[j++] = line[i++];
 	nb[j] = 0;
@@ -68,7 +59,6 @@ int	catch_value_color(char *line, int idx)
 		free(nb);
 		return (-1);
 	}
-	// printf("5\n");
 	free(nb);
 	return (ret);
 }

@@ -1,0 +1,8 @@
+utiles.c = find_player_pos (27)
+raycasting.c = render_3d(30) ; check_wall(26)
+parsing.c = parsing(35) ; print_scene(26)
+parsing_map.c = get_map(31)
+parsing_data_img.c = get_texture(26) ; set_data_img(38)
+parsing_data_color.c = catch_value_color(40)
+main.c = mem_set(39) ; main(26)
+
