@@ -12,7 +12,10 @@ int	check_element(char *line, t_pars *p, int elem)
 	if (elem < 7 && check_line_space(line))
 	 	return (error("Invalid data !"));
 	if (elem > 7)
+	{
+		//free map
 		return (error("To much element in this file !"));
+	}
 	id = get_id(line);
 	if (!id)
 		return (1);

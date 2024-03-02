@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flavian <flavian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/02 16:38:09 by flavian          ###   ########.fr       */
+/*   Updated: 2024/03/01 14:19:07 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,14 +206,6 @@ int		key_pressed(int keysym, t_g *game);
 int		key_release(int keysym, t_g *game);
 int		key_action(t_g *game);
 int		handle_no_event(void *data);
-
-/*--------------event.c--------------*/
-
-void	mpc_go_up(t_g *game);
-void	mpc_go_down(t_g *game);
-void	mpc_go_right(t_g *game);
-void	mpc_go_left(t_g *game);
-void	mpc_turn_left(t_g *game);
 
 /*--------------map.c--------------*/
 

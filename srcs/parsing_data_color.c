@@ -1,22 +1,28 @@
 
 #include "../include/cub3d.h"
 
+int	ft_isWS(int c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
+
 int	len_rgb(char *rgb, int check_ws)
 {
 	int	i;
 
 	i = 0;
-	(void)check_ws;
 	while (rgb[i] && rgb[i] != ',' && rgb[i] != '\n')
 	{
+		if (ft_isWS(rgb[i]) && check_ws)
+			break ;
 		if (!ft_isdigit(rgb[i]))
-		}
+			return (-1);
 		i++;
 	}
 	if (i > 3)
-	{
 		return (-1);
-	}
 	return (i);
 }
 
@@ -47,10 +53,10 @@ int	catch_value_color(char *line, int idx)
 	len = len_rgb(&line[i], check_ws);
 	if (len == -1)
 		return (-1);
-	nb = malloc(sizeof(char) * (len + 2));
+	nb = malloc(sizeof(char) * (len + 1));
 	if (!nb)
 		return (-1);
-	while (line[i] && line[i] != ',')
+	while (line[i] && line[i] != ',' && !ft_isWS(line[i]))
 		nb[j++] = line[i++];
 	nb[j] = 0;
 	ret = ft_atoi(nb);
