@@ -116,34 +116,29 @@ int	check_verti_line(char **map, char c, int j, int i)
 	int	len_j_more;
 
 	len_tab = ft_strlen_tab(map) - 1;
-	if (j > 0)
-		len_j_less = (int)ft_strlen(map[j - 1]) - 1;
-	else 
-		len_j_less = (int)ft_strlen(map[j]) - 1;
-	if (j < len_tab)
-		len_j_more = (int)ft_strlen(map[j + 1]) - 1;
-	else
-		len_j_more = (int)ft_strlen(map[j]) - 1;
-	// if (i == 0)
-	// {
-	// 	printf("map[%d] = %s", j, map[j]);
-	// 	printf("len_j_less = %d\n", len_j_less);
-	// 	printf("len_j_more = %d\n", len_j_more);
-	// }
-	// printf("1 : i = %d\n", i);
-	if (j > 0 && i > len_j_less && check_char(c))
-		return (printf("map ouvert par le haut 2 !\n"));
-	else if ((i < len_j_less && (j > 0 && map[j - 1][i] == ' ' && check_char(c))) ||
-		(j == 0 && c == '0'))
-		return (printf("map ouvert par le haut 1 !\n"));
-	// printf("2 : i = %d\n", i);
-	// printf("i = %d ; len_more = %d\n", i, len_j_more);
-	if (j < len_tab && i > len_j_more && check_char(c))
-		return (printf("map ouvert par le bas ! 2 \n"));
-	else if ((i < len_j_more && (j < len_tab && map[j + 1][i] == ' ' && check_char(c))) ||
-		(j == len_tab && c == '0'))
-		return (printf("map ouvert par le bas ! 1 \n"));
-	// printf("3 : i = %d\n", i);
+	if (j == 0 || j == len_tab)
+		return (0);
+	len_j_less = (int)ft_strlen(map[j - 1]) - 1;
+	len_j_more = (int)ft_strlen(map[j + 1]) - 1;
+	if (i + 1 > len_j_less && check_char(c))
+		return (printf("map ouvert par le haut 1\n"));
+	else if (i + 1<= len_j_less && map[j - 1][i] == ' ' && check_char(c))
+		return (printf("map ouvert par le haut 2\n"));
+	if (i + 1 > len_j_more && check_char(c))
+		return (printf("map ouvert par le bas 1\n"));
+	else if (i + 1 <= len_j_more && map[j + 1][i] == ' ' && check_char(c))
+		return (printf("map ouvert par le bas 2\n"));
+	// if (j > 0 && i > len_j_less && check_char(c))
+	// 	return (printf("map ouvert par le haut 2 !\n"));
+	// else if ((i < len_j_less && (j > 0 && map[j - 1][i] == ' ' && check_char(c))) ||
+	// 	(j == 0 && c == '0'))
+	// 	return (printf("map ouvert par le haut 1 !\n"));
+	// if (j < len_tab && i > len_j_more && check_char(c))
+	// 	return (printf("map ouvert par le bas ! 2 \n"));
+	// else if ((i < len_j_more && (j < len_tab && map[j + 1][i] == ' ' && check_char(c))) ||
+	// 	(j == len_tab && c == '0'))
+	// 	return (printf("map ouvert par le bas ! 1 \n"));
+	// // printf("3 : i = %d\n", i);
 	return (0);
 }
 
