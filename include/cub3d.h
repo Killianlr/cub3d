@@ -227,9 +227,12 @@ void    render_3d(t_g *game, t_mlx *mlx);
 int		collision(t_g *game, float x, float y);
 void	print_map(char **map);
 
+/*--------------movement.c--------------*/
 
-
-// void	create_img(t_dis *display);
-// int		render_map(t_dis *display);
+void	mpc_turn_left(t_g *game);
+void	mpc_go_right(t_g *game);
+void	mpc_go_left(t_g *game);
+void	mpc_go_down(t_g *game);
+void	mpc_go_up(t_g *game);
 
 #endif
