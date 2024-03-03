@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:08:13 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 14:04:17 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:44:29 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,32 @@ float	get_angle(char c)
 	return (0);
 }
 
-void    find_player_pos(t_p *player, char **map)
-{ 
-    int i;
-    
-    player->fdpx = 0;
-    i = 0;
-    while (map[player->fdpx])
-    {
-        player->fdpy = 0;
-        while (!i && map[player->fdpx][player->fdpy])
-        {
-            if (map[player->fdpx][player->fdpy] != '1' 
-				&& map[player->fdpx][player->fdpy] != '0' 
-					&& map[player->fdpx][player->fdpy] != ' ')
+void	find_player_pos(t_p *player, char **map)
+{
+	int	i;
+	int	x;
+	int	y;
+
+	x = 0;
+	i = 0;
+	while (i == 0 && map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] != '1' && map[x][y] != '0' && map[x][y] != ' ')
 			{
-                i = 1;
-				player->angle = get_angle(map[player->fdpx][player->fdpy]);
+				i = 1;
+				player->angle = get_angle(map[x][y]);
+				break ;
 			}
-            player->fdpy++;
-        }
-        if (i)
-            break;
-        player->fdpx++;
-    }
-    player->posx = player->fdpx + 0.5;
-    player->posy = player->fdpy + 0.5;
+			y++;
+		}
+		if (i == 0)
+			x++;
+	}
+	player->posx = x + 0.5;
+	player->posy = y + 0.5;
 }
 
 int	create_trgb(int t, int r, int g, int b)

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utiles.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 17:11:38 by kle-rest          #+#    #+#             */
+/*   Updated: 2024/03/03 17:12:04 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
@@ -60,11 +71,11 @@ int	ft_strlen_tab(char **tab)
 	return (i);
 }
 
-char *get_id(char *line)
+char	*get_id(char *line)
 {
-	int	i;
-	int	c;
-	char *id;
+	int		i;
+	int		c;
+	char	*id;
 
 	i = 0;
 	c = 0;

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_data_color.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 17:06:46 by kle-rest          #+#    #+#             */
+/*   Updated: 2024/03/03 17:08:03 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	ft_isWS(int c)
+int	ft_isws(int c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
@@ -15,7 +26,7 @@ int	len_rgb(char *rgb, int check_ws)
 	i = 0;
 	while (rgb[i] && rgb[i] != ',' && rgb[i] != '\n')
 	{
-		if (ft_isWS(rgb[i]) && check_ws)
+		if (ft_isws(rgb[i]) && check_ws)
 			break ;
 		if (!ft_isdigit(rgb[i]))
 			return (-1);
@@ -28,15 +39,15 @@ int	len_rgb(char *rgb, int check_ws)
 
 int	next_catch_value_color(char *line, int len, int i)
 {
-	char *nb;
-	int	ret;
-	int	j;
+	char	*nb;
+	int		ret;
+	int		j;
 
 	j = 0;
 	nb = malloc(sizeof(char) * (len + 1));
 	if (!nb)
 		return (-1);
-	while (line[i] && line[i] != ',' && !ft_isWS(line[i]))
+	while (line[i] && line[i] != ',' && !ft_isws(line[i]))
 		nb[j++] = line[i++];
 	nb[j] = 0;
 	ret = ft_atoi(nb);
@@ -51,8 +62,8 @@ int	next_catch_value_color(char *line, int len, int i)
 
 int	catch_value_color(char *line, int idx)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	int		check_ws;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 14:19:07 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:22:50 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ typedef struct s_image
 
 typedef struct s_pars
 {
-	t_img *NO;
-	t_img *SO;
-	t_img *WE;
-	t_img *EA;
+	t_img *no;
+	t_img *so;
+	t_img *we;
+	t_img *ea;
 	int		F;
 	int		C;
 	char	**map;
@@ -63,10 +63,10 @@ typedef struct s_pars
 	void	*mlx_ptr;
 	int		player;
 	int		fd;
-	int		iNO;
-	int		iWE;
-	int		iEA;
-	int		iSO;
+	int		ino;
+	int		iwe;
+	int		iea;
+	int		iso;
 }				t_pars;
 
 typedef	struct s_minimap
@@ -154,7 +154,7 @@ int	error(char *msg);
 
 /*--------------affichage.c--------------*/
 
-int		color_texture(t_img *img, float wallx, int y, int hauteur_mur, t_ray *ray);
+int		color_texture(t_img *img, float wallx, t_ray *ray);
 void	create_image(t_img *img, t_mlx *mlx);
 int		my_mlx_pixel_get(t_img *img, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);

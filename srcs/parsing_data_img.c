@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_data_img.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 17:08:16 by kle-rest          #+#    #+#             */
+/*   Updated: 2024/03/03 17:09:47 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
@@ -13,9 +24,34 @@ int	set_data_texture(char *line, t_pars *p, int e)
 	else if (e == 4)
 		return (get_texture(line, p, e));
 	else if (e == 5)
-	 	return (get_color(line, p, 'F'));
+		return (get_color(line, p, 'F'));
 	else if (e == 6)
-	 	return (get_color(line, p, 'C'));
+		return (get_color(line, p, 'C'));
+	return (0);
+}
+
+int	set_data_img_next(int elem, char *path, t_pars *p)
+{
+	if (elem == 3)
+	{
+		if (p->we->img)
+			return (error("we already set"));
+		p->we->img = mlx_xpm_file_to_image(p->mlx_ptr, path,
+				&p->we->width, &p->we->height);
+		if (!p->we->img)
+			return (error("Invalid XPM !"));
+		p->iwe = 1;
+	}
+	else if (elem == 4)
+	{
+		if (p->ea->img)
+			return (error("ea already set"));
+		p->ea->img = mlx_xpm_file_to_image(p->mlx_ptr, path,
+				&p->ea->width, &p->ea->height);
+		if (!p->ea->img)
+			return (error("Invalid XPM !"));
+		p->iea = 1;
+	}
 	return (0);
 }
 
@@ -23,48 +59,34 @@ int	set_data_img(int elem, char *path, t_pars *p)
 {
 	if (elem == 1)
 	{
-		if (p->NO->img != NULL)
-			return (error("NO already set"));
-		p->NO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->NO->width, &p->NO->height);
-		if (!p->NO->img)
+		if (p->no->img != NULL)
+			return (error("no already set"));
+		p->no->img = mlx_xpm_file_to_image(p->mlx_ptr, path,
+				&p->no->width, &p->no->height);
+		if (!p->no->img)
 			return (error("Invalid XPM !"));
-		p->iNO = 1;
+		p->ino = 1;
 	}
 	else if (elem == 2)
 	{
-		if (p->SO->img)
-			return (error("SO already set"));
-		p->SO->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->SO->width, &p->SO->height);
-		if (!p->SO->img)
+		if (p->so->img)
+			return (error("so already set"));
+		p->so->img = mlx_xpm_file_to_image(p->mlx_ptr, path,
+				&p->so->width, &p->so->height);
+		if (!p->so->img)
 			return (error("Invalid XPM !"));
-		p->iSO = 1;
+		p->iso = 1;
 	}
-	else if (elem == 3)
-	{
-		if (p->WE->img)
-			return (error("WE already set"));
-		p->WE->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->WE->width, &p->WE->height);
-		if (!p->WE->img)
-			return (error("Invalid XPM !"));
-		p->iWE = 1;
-	}
-	else if (elem == 4)
-	{
-		if (p->EA->img)
-			return (error("EA already set"));
-		p->EA->img = mlx_xpm_file_to_image(p->mlx_ptr, path, &p->EA->width, &p->EA->height);
-		if (!p->EA->img)
-			return (error("Invalid XPM !"));
-		p->iEA = 1;
-	}
+	if (set_data_img_next(elem, path, p))
+		return (1);
 	free(path);
 	return (0);
 }
 
 int	get_texture(char *line, t_pars *p, int elem)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*path;
 
 	i = 0;
@@ -75,7 +97,7 @@ int	get_texture(char *line, t_pars *p, int elem)
 		i++;
 	while (line[i] && line[i] == ' ')
 		i++;
-	path = malloc(sizeof(char) * (ft_strlen_c(&line[i], ' ') + 1)); //ft_strlen sans les espaces
+	path = malloc(sizeof(char) * (ft_strlen_c(&line[i], ' ') + 1));
 	if (!path)
 		return (error("malloc failed !"));
 	while (line[i] && line[i] != ' ' && line[i] != '\n')

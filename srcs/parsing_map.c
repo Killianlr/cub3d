@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_map.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 17:10:04 by kle-rest          #+#    #+#             */
+/*   Updated: 2024/03/03 17:11:21 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
@@ -56,16 +67,16 @@ int	create_map(t_pars *p, char *mapy)
 
 int	parsing_map(char *line, t_pars *p)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*mapy;
 
 	i = 0;
 	len = ft_strlen(line) - 2;
 	while (line[i] && check_char_map(line[i], p, i, len))
 	{
-		if ((i > 0 && line[i - 1] == ' ' && check_char(line[i])) ||
-			(i < len && line[i + 1] == ' ' && check_char(line[i])))
+		if ((i > 0 && line[i - 1] == ' ' && check_char(line[i]))
+			|| (i < len && line[i + 1] == ' ' && check_char(line[i])))
 			return (error("map unclosed 1!"));
 		if (i < len && line[i + 1] == '0' && line[i] == ' ')
 			return (error("map unclosed 2!"));
@@ -122,23 +133,12 @@ int	check_verti_line(char **map, char c, int j, int i)
 	len_j_more = (int)ft_strlen(map[j + 1]) - 1;
 	if (i + 1 > len_j_less && check_char(c))
 		return (printf("map ouvert par le haut 1\n"));
-	else if (i + 1<= len_j_less && map[j - 1][i] == ' ' && check_char(c))
+	else if (i + 1 <= len_j_less && map[j - 1][i] == ' ' && check_char(c))
 		return (printf("map ouvert par le haut 2\n"));
 	if (i + 1 > len_j_more && check_char(c))
 		return (printf("map ouvert par le bas 1\n"));
 	else if (i + 1 <= len_j_more && map[j + 1][i] == ' ' && check_char(c))
 		return (printf("map ouvert par le bas 2\n"));
-	// if (j > 0 && i > len_j_less && check_char(c))
-	// 	return (printf("map ouvert par le haut 2 !\n"));
-	// else if ((i < len_j_less && (j > 0 && map[j - 1][i] == ' ' && check_char(c))) ||
-	// 	(j == 0 && c == '0'))
-	// 	return (printf("map ouvert par le haut 1 !\n"));
-	// if (j < len_tab && i > len_j_more && check_char(c))
-	// 	return (printf("map ouvert par le bas ! 2 \n"));
-	// else if ((i < len_j_more && (j < len_tab && map[j + 1][i] == ' ' && check_char(c))) ||
-	// 	(j == len_tab && c == '0'))
-	// 	return (printf("map ouvert par le bas ! 1 \n"));
-	// // printf("3 : i = %d\n", i);
 	return (0);
 }
 
@@ -203,7 +203,6 @@ int	check_map(char *line, int fd, t_pars *p)
 
 int	get_map(char *line, int fd, t_pars *p)
 {
-	
 	if (check_map(line, fd, p))
 		return (1);
 	if (p->player == 0)

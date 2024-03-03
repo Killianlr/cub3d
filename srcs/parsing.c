@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:56:04 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 15:57:05 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:59:52 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	print_scene(t_pars *p)
-{
-	if (p->NO->img)
-		printf("p->NO->img : SET !\n");
-	else
-		printf("p->NO->img : UNSET !\n");
-	if (p->SO->img)
-		printf("p->SO->img : SET !\n");
-	else
-		printf("p->SO->img : UNSET !\n");
-	if (p->WE->img)
-		printf("p->WE->img : SET !\n");
-	else
-		printf("p->WE->img : UNSET !\n");
-	if (p->EA->img)
-		printf("p->EA->img : SET !\n");
-	else
-		printf("p->EA->img : UNSET !\n");
-	printf("p.F = %d\n", p->F);
-	printf("p.C = %d\n", p->C);
-	printf("p.player = %d\n", p->player);
-	int	m = 0;
-	while (p->map[m])
-	{
-		printf("map : %s\n", p->map[m]);
-		m++;
-	}
-}
 
 int	get_data_file(int elem, char *line, t_pars *p)
 {

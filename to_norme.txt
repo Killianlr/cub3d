@@ -4,5 +4,5 @@ parsing.c = parsing(35) V;
 parsing_map.c = get_map(31) V
 parsing_data_img.c = get_texture(26) V; set_data_img(38) X
 parsing_data_color.c = catch_value_color(40) V
-main.c = mem_set(39) X ; main(26) V
+main.c = mem_set(39) V ; main(26) V
 

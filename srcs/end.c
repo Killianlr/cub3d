@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/01 13:43:17 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:02:09 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,22 @@ void	free_tab(char **tab)
 
 void	free_t_pars(t_pars *p)
 {
-	if (p->iNO == 1)
-		mlx_destroy_image(p->mlx_ptr, p->NO->img);
-	if (p->iSO == 1)
-		mlx_destroy_image(p->mlx_ptr, p->SO->img);
-	if (p->iWE == 1)
-		mlx_destroy_image(p->mlx_ptr, p->WE->img);
-	if (p->iEA == 1)
-		mlx_destroy_image(p->mlx_ptr, p->EA->img);
-	if (p->NO)
-		free(p->NO);
-	if (p->SO)
-		free(p->SO);
-	if (p->WE)
-		free(p->WE);
-	if (p->EA)
-		free(p->EA);
+	if (p->ino == 1)
+		mlx_destroy_image(p->mlx_ptr, p->no->img);
+	if (p->iso == 1)
+		mlx_destroy_image(p->mlx_ptr, p->so->img);
+	if (p->iwe == 1)
+		mlx_destroy_image(p->mlx_ptr, p->we->img);
+	if (p->iea == 1)
+		mlx_destroy_image(p->mlx_ptr, p->ea->img);
+	if (p->no)
+		free(p->no);
+	if (p->so)
+		free(p->so);
+	if (p->we)
+		free(p->we);
+	if (p->ea)
+		free(p->ea);
 	if (p->map)
 		free_tab(p->map);
 	if (p->fd > 0)

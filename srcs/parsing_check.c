@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_check.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 17:00:20 by kle-rest          #+#    #+#             */
+/*   Updated: 2024/03/03 17:05:47 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
@@ -10,12 +21,9 @@ int	check_element(char *line, t_pars *p, int elem)
 	if (elem < 7 && check_is_map(line))
 		return (error("Missing elements !"));
 	if (elem < 7 && check_line_space(line))
-	 	return (error("Invalid data !"));
+		return (error("Invalid data !"));
 	if (elem > 7)
-	{
-		//free map
 		return (error("To much element in this file !"));
-	}
 	id = get_id(line);
 	if (!id)
 		return (1);
