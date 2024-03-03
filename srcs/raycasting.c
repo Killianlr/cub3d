@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:46:34 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:06:35 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	check_dir(t_ray *ray, t_p *player)
 		ray->sidedisty = (ray->mapy + 1 - player->posy) * ray->deltadisty;
 	}
 }
-void	check_wall(t_ray *ray, char **map)
 
+void	check_wall(t_ray *ray, char **map)
 {
 	int	intmapy;
 	int	intmapx;

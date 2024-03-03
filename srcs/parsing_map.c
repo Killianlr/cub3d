@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:10:04 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:11:21 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:05:58 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,13 @@ int	check_verti_line(char **map, char c, int j, int i)
 		return (0);
 	len_j_less = (int)ft_strlen(map[j - 1]) - 1;
 	len_j_more = (int)ft_strlen(map[j + 1]) - 1;
-	if (i + 1 > len_j_less && check_char(c))
+	if (i > len_j_less && check_char(c))
 		return (printf("map ouvert par le haut 1\n"));
-	else if (i + 1 <= len_j_less && map[j - 1][i] == ' ' && check_char(c))
+	else if (i < len_j_less && map[j - 1][i] == ' ' && check_char(c))
 		return (printf("map ouvert par le haut 2\n"));
-	if (i + 1 > len_j_more && check_char(c))
+	if (i > len_j_more && check_char(c))
 		return (printf("map ouvert par le bas 1\n"));
-	else if (i + 1 <= len_j_more && map[j + 1][i] == ' ' && check_char(c))
+	else if (i < len_j_more && map[j + 1][i] == ' ' && check_char(c))
 		return (printf("map ouvert par le bas 2\n"));
 	return (0);
 }
