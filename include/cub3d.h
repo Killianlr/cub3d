@@ -96,6 +96,8 @@ typedef struct s_p
 	float	posy;
 	float	angle;
 	int		fov;
+	int		fdpx;
+	int		fdpy;
 }			t_p;
 
 typedef struct s_mlx
@@ -120,6 +122,9 @@ typedef struct s_ray
 	float	sidedisty;
 	int		side;
 	float	perpualldist;
+	int		wally;
+	int		sizewall;
+	int		pixy;
 }				t_ray;
 
 typedef	struct s_event

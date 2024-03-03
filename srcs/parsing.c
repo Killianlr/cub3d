@@ -41,19 +41,8 @@ void	print_scene(t_pars *p)
 	}
 }
 
-int	parsing(t_pars *p, char *file)
+int	get_data_file(int elem, char *line, t_pars *p)
 {
-	char	*line;
-	int		elem;
-	if (check_file_is_cub(file))
-		return (printf("Error\nWrong extentions, cub3d expected .cub\n"));
-	p->fd = open(file, O_RDONLY);
-	if (p->fd <= 0)
-		return (error("File unexiste or unaccess !"));
-	line = get_next_line(p->fd, 0);
-	if (!line)
-		return (error("file empty !"));
-	elem = 0;
 	while (line)
 	{
 		if (check_line_is_empty(line))
@@ -75,6 +64,24 @@ int	parsing(t_pars *p, char *file)
 		free(line);
 		line = get_next_line(p->fd, 0);
 	}
-	// print_scene(p);
+	return (0);
+}
+
+int	parsing(t_pars *p, char *file)
+{
+	char	*line;
+	int		elem;
+
+	if (check_file_is_cub(file))
+		return (printf("Error\nWrong extentions, cub3d expected .cub\n"));
+	p->fd = open(file, O_RDONLY);
+	if (p->fd <= 0)
+		return (error("File unexiste or unaccess !"));
+	line = get_next_line(p->fd, 0);
+	if (!line)
+		return (error("file empty !"));
+	elem = 0;
+	if (get_data_file(elem, line, p))
+		return (1);
 	return (0);
 }

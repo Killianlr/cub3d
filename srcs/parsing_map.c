@@ -174,7 +174,7 @@ int	check_map_is_open(char **map)
 	return (0);
 }
 
-int	get_map(char *line, int fd, t_pars *p)
+int	check_map(char *line, int fd, t_pars *p)
 {
 	int	e;
 
@@ -198,6 +198,14 @@ int	get_map(char *line, int fd, t_pars *p)
 		free(line);
 		line = get_next_line(fd, 0);
 	}
+	return (0);
+}
+
+int	get_map(char *line, int fd, t_pars *p)
+{
+	
+	if (check_map(line, fd, p))
+		return (1);
 	if (p->player == 0)
 		return (error("No player found !"));
 	else if (p->player > 1)

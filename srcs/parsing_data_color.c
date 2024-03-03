@@ -26,17 +26,36 @@ int	len_rgb(char *rgb, int check_ws)
 	return (i);
 }
 
+int	next_catch_value_color(char *line, int len, int i)
+{
+	char *nb;
+	int	ret;
+	int	j;
+
+	j = 0;
+	nb = malloc(sizeof(char) * (len + 1));
+	if (!nb)
+		return (-1);
+	while (line[i] && line[i] != ',' && !ft_isWS(line[i]))
+		nb[j++] = line[i++];
+	nb[j] = 0;
+	ret = ft_atoi(nb);
+	if (ret > 255 || ret < 0)
+	{
+		free(nb);
+		return (-1);
+	}
+	free(nb);
+	return (ret);
+}
+
 int	catch_value_color(char *line, int idx)
 {
 	int	i;
-	int	j;
 	int	len;
-	char	*nb;
-	int		ret;
 	int		check_ws;
 
 	i = 0;
-	j = 0;
 	check_ws = 0;
 	if (idx == 2)
 		check_ws = 1;
@@ -53,20 +72,7 @@ int	catch_value_color(char *line, int idx)
 	len = len_rgb(&line[i], check_ws);
 	if (len == -1)
 		return (-1);
-	nb = malloc(sizeof(char) * (len + 1));
-	if (!nb)
-		return (-1);
-	while (line[i] && line[i] != ',' && !ft_isWS(line[i]))
-		nb[j++] = line[i++];
-	nb[j] = 0;
-	ret = ft_atoi(nb);
-	if (ret > 255 || ret < 0)
-	{
-		free(nb);
-		return (-1);
-	}
-	free(nb);
-	return (ret);
+	return (next_catch_value_color(line, len, i));
 }
 
 int	set_color(t_pars *p, int r, int g, int b)

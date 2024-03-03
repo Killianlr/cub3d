@@ -12,13 +12,13 @@
 
 #include "../include/cub3d.h"
 
-int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur, t_p *player)
+int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur)
 {
 	float	wallx;
 
 	if (ray->side)
 	{
-		wallx = player->posx + ray->perpualldist * ray->dirx;
+		wallx = game->player->posx + ray->perpualldist * ray->dirx;
 		wallx -= floor(wallx);
 		if (ray->stepy < 0)
 			return (color_texture(game->p->WE, wallx, y, hauteur_mur, ray));
@@ -27,7 +27,7 @@ int	check_texture(t_ray *ray, t_g *game, int y, int hauteur_mur, t_p *player)
 	}
 	else
 	{
-		wallx = player->posy + ray->perpualldist * ray->diry;
+		wallx = game->player->posy + ray->perpualldist * ray->diry;
 		wallx -= floor(wallx);
 		if (ray->stepx < 0)
 			return (color_texture(game->p->SO, wallx, y, hauteur_mur, ray));
@@ -62,12 +62,10 @@ void	check_dir(t_ray *ray, t_p *player)
 
 void	check_wall(t_ray *ray, char **map)
 {
-	int hit;
 	int	intmapy;
 	int	intmapx;
 
-	hit = 0;
-	while (!hit)
+	while (1)
 	{
 		if (!ray->sidedisty || (ray->sidedistx
 			&& ray->sidedistx < ray->sidedisty))
@@ -85,7 +83,7 @@ void	check_wall(t_ray *ray, char **map)
 		intmapx = floor(ray->mapx);
 		intmapy = floor(ray->mapy);
 		if (map[intmapx][intmapy] == '1')
-			hit = 1;
+			break;
 	}
 }
 
@@ -108,34 +106,38 @@ float	set_raycasting(t_ray *ray, t_p *player, char **map)
 	return (perpualldist);
 }
 
+void	draw_line(t_g *game, t_ray *ray, int pixx, t_img *img)
+{
+	if (ray->pixy < (RESY / 2) - (RESY / 4) / ray->perpualldist)
+		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->C);
+	else if (ray->pixy > (RESY / 2) + (RESY / 4) / ray->perpualldist)
+		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->F);
+	else
+		my_mlx_pixel_put(img, pixx, ray->pixy, check_texture(ray, game, ray->wally, ray->sizewall));
+}
+
 void    render_3d(t_g *game, t_mlx *mlx)
 {
 	t_ray	ray;
 	t_img	img;
-    double pix;
-	int		y;
-	int		hauteur_mur;
+    double pixx;
 
-    pix = 0;
+    pixx = 0;
 	img.img = NULL;
 	create_image(&img, mlx);
-    while (pix <= RESX)
+    while (pixx <= RESX)
     {
-		ray.ratio = (pix - (RESX / 2))/ (RESX / 2);
+		ray.ratio = (pixx - (RESX / 2))/ (RESX / 2);
 		ray.perpualldist = set_raycasting(&ray, game->player, game->p->map);
-		y = 0;
-		while (y <= RESY)
+		ray.pixy = 0;
+		while (ray.pixy <= RESY)
 		{
-			hauteur_mur = ((RESY / 2) + (RESY / 4) / ray.perpualldist) - ((RESY / 2) - (RESY / 4) / ray.perpualldist);
-			if (y < (RESY / 2) - (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, game->p->C);
-			else if (y > (RESY / 2) + (RESY / 4) / ray.perpualldist)
-				my_mlx_pixel_put(&img, pix, y, game->p->F);
-			else
-				my_mlx_pixel_put(&img, pix, y, check_texture(&ray, game, y - (RESY / 2) + (RESY / 4) / ray.perpualldist, hauteur_mur, game->player));
-			y++;
+			ray.sizewall = ((RESY / 2) + (RESY / 4) / ray.perpualldist) - ((RESY / 2) - (RESY / 4) / ray.perpualldist);
+			ray.wally = ray.pixy - (RESY / 2) + (RESY / 4) / ray.perpualldist;
+			draw_line(game, &ray, pixx, &img);
+			ray.pixy++;
 		}
-		pix++;
+		pixx++;
     }
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx_ptr, img.img);

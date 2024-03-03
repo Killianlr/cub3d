@@ -26,33 +26,31 @@ float	get_angle(char c)
 }
 
 void    find_player_pos(t_p *player, char **map)
-{
-    int x;
-    int y;
+{ 
     int i;
     
-    x = 0;
+    player->fdpx = 0;
     i = 0;
-    while (map[x])
+    while (map[player->fdpx])
     {
-        y = 0;
-        while (map[x][y])
+        player->fdpy = 0;
+        while (!i && map[player->fdpx][player->fdpy])
         {
-            if (map[x][y] != '1' && map[x][y] != '0' && map[x][y] != ' ')
+            if (map[player->fdpx][player->fdpy] != '1' 
+				&& map[player->fdpx][player->fdpy] != '0' 
+					&& map[player->fdpx][player->fdpy] != ' ')
 			{
                 i = 1;
-				player->angle = get_angle(map[x][y]);
+				player->angle = get_angle(map[player->fdpx][player->fdpy]);
 			}
-            if (i)
-                break;
-            y++;
+            player->fdpy++;
         }
         if (i)
             break;
-        x++;
+        player->fdpx++;
     }
-    player->posx = x + 0.5;
-    player->posy = y + 0.5;
+    player->posx = player->fdpx + 0.5;
+    player->posy = player->fdpy + 0.5;
 }
 
 int	create_trgb(int t, int r, int g, int b)

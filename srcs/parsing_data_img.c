@@ -57,6 +57,7 @@ int	set_data_img(int elem, char *path, t_pars *p)
 			return (error("Invalid XPM !"));
 		p->iEA = 1;
 	}
+	free(path);
 	return (0);
 }
 
@@ -85,6 +86,5 @@ int	get_texture(char *line, t_pars *p, int elem)
 		free(path);
 		return (1);
 	}
-	free(path);
 	return (0);
 }
