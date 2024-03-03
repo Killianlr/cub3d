@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_data_color.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:06:46 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:08:03 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:23:26 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	len_rgb(char *rgb, int check_ws)
 			return (-1);
 		i++;
 	}
-	if (i > 3)
+	if (i > 3 || i == 0)
 		return (-1);
 	return (i);
 }

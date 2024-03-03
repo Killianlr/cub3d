@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:00:20 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:05:47 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:20:55 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_element(char *line, t_pars *p, int elem)
 		return (error("To much element in this file !"));
 	id = get_id(line);
 	if (!id)
-		return (1);
+		return (error("Wrong identifiant !"));
 	e = check_id(id);
 	free(id);
 	if (!e)
