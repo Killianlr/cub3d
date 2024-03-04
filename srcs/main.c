@@ -6,70 +6,11 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:28 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 16:57:02 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:52:11 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-int	error(char *msg)
-{
-	printf("Error\n");
-	printf("%s\n", msg);
-	return (1);
-}
-
-int	set_texture_image(t_pars *p)
-{
-	t_img	*ea;
-	t_img	*so;
-	t_img	*no;
-	t_img	*we;
-
-	ea = malloc(sizeof(t_img));
-	if (!ea)
-		return (1);
-	p->ea = ea;
-	so = malloc(sizeof(t_img));
-	if (!so)
-		return (2);
-	p->so = so;
-	no = malloc(sizeof(t_img));
-	if (!no)
-		return (3);
-	p->no = no;
-	we = malloc(sizeof(t_img));
-	if (!we)
-		return (4);
-	p->we = we;
-	return (0);
-}
-
-void	free_img(int i, t_pars *p)
-{
-	if (!i)
-	{
-		free(p->ea);
-		free(p->we);
-		free(p->so);
-		free(p->no);
-	}
-	else if (i == 1)
-		return ;
-	else if (i == 2)
-		free(p->ea);
-	else if (i == 3)
-	{
-		free(p->ea);
-		free(p->so);
-	}
-	else if (i == 4)
-	{
-		free(p->ea);
-		free(p->so);
-		free(p->no);
-	}
-}
 
 void	init_var_struct(t_g *game)
 {
@@ -77,8 +18,8 @@ void	init_var_struct(t_g *game)
 	game->p->we->img = NULL;
 	game->p->no->img = NULL;
 	game->p->so->img = NULL;
-	game->p->C = 0;
-	game->p->F = 0;
+	game->p->c = 0;
+	game->p->f = 0;
 	game->p->map = NULL;
 	game->p->mlx_ptr = game->mlx->mlx_ptr;
 	game->p->player = 0;
@@ -88,67 +29,6 @@ void	init_var_struct(t_g *game)
 	game->p->iea = 0;
 	game->p->iwe = 0;
 	game->p->elem = 0;
-}
-
-int	mem_set_next(t_g *game)
-{
-	int	i;
-
-	if (!game->player)
-	{
-		free(game->mlx);
-		free(game->p);
-		free(game);
-		return (1);
-	}
-	i = set_texture_image(game->p);
-	if (i)
-	{
-		free_img(i, game->p);
-		free(game->mlx);
-		free(game->p);
-		free(game->player);
-		free(game);
-		return (1);
-	}
-	set_mlx(game->mlx);
-	init_var_struct(game);
-	return (0);
-}
-
-int	mem_set(t_g *game)
-{
-	if (!game)
-		return (1);
-	game->mlx = malloc(sizeof(t_mlx));
-	if (!game->mlx)
-	{
-		free(game);
-		return (1);
-	}
-	game->p = malloc(sizeof(t_pars));
-	if (!game->p)
-	{
-		free(game->mlx);
-		free(game);
-		return (1);
-	}
-	game->player = malloc(sizeof(t_p));
-	if (mem_set_next(game))
-		return (1);
-	return (0);
-}
-
-void	set_texture(t_pars *p)
-{
-	p->no->addr = mlx_get_data_addr(p->no->img,
-			&p->no->bits_per_pixel, &p->no->line_length, &p->no->endian);
-	p->so->addr = mlx_get_data_addr(p->so->img,
-			&p->so->bits_per_pixel, &p->so->line_length, &p->so->endian);
-	p->we->addr = mlx_get_data_addr(p->we->img,
-			&p->we->bits_per_pixel, &p->we->line_length, &p->we->endian);
-	p->ea->addr = mlx_get_data_addr(p->ea->img,
-			&p->ea->bits_per_pixel, &p->ea->line_length, &p->ea->endian);
 }
 
 void	set_ev(t_g *game)
@@ -179,10 +59,7 @@ int	main(int ac, char **av)
 	if (mem_set(game))
 		return (error("Malloc failed !"));
 	if (parsing(game->p, av[1]))
-	{
-		printf("FAIL PARSING\n");
 		return (ft_end_1(game));
-	}
 	set_ev(game);
 	set_texture(game->p);
 	find_player_pos(game->player, game->p->map);

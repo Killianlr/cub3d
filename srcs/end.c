@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:27:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:02:09 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:42:45 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,30 @@ void	free_t_pars(t_pars *p)
 		free_tab(p->map);
 	if (p->fd > 0)
 		close(p->fd);
+}
+
+void	free_img(int i, t_pars *p)
+{
+	if (!i)
+	{
+		free(p->ea);
+		free(p->we);
+		free(p->so);
+		free(p->no);
+	}
+	else if (i == 1)
+		return ;
+	else if (i == 2)
+		free(p->ea);
+	else if (i == 3)
+	{
+		free(p->ea);
+		free(p->so);
+	}
+	else if (i == 4)
+	{
+		free(p->ea);
+		free(p->so);
+		free(p->no);
+	}
 }

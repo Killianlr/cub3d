@@ -1,36 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collision.c                                        :+:      :+:    :+:   */
+/*   utiles_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:31:13 by fserpe            #+#    #+#             */
-/*   Updated: 2024/03/03 16:49:48 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:43:29 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	print_map(char **map)
-{
-	int	r;
-	int	c;
-
-	c = 0;
-	r = 0;
-	while (map[r])
-	{
-		while (map[r][c])
-		{
-			printf("%c", map[r][c]);
-			c++;
-		}
-		printf("\n");
-		c = 0;
-		r++;
-	}
-}
 
 int	collision(t_g *game, float x, float y)
 {
@@ -45,4 +25,23 @@ int	collision(t_g *game, float x, float y)
 		return (0);
 	else
 		return (1);
+}
+
+int	ft_isws(int c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+int	error(char *msg)
+{
+	printf("Error\n");
+	printf("%s\n", msg);
+	return (1);
 }

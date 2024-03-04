@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:00:20 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 18:20:55 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/04 12:22:26 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	check_element(char *line, t_pars *p, int elem)
 	e = check_id(id);
 	free(id);
 	if (!e)
-	{
-		printf("WRONG ID\n");
-		return (error("Wrong identifiant 3 !"));
-	}
+		return (error("Wrong identifiant !"));
 	if (set_data_texture(line, p, e))
 		return (1);
 	return (0);
@@ -61,7 +58,7 @@ int	check_char_map(char c, t_pars *p, int i, int len)
 	if ((i == 0 && c == '0') || (i == len && c == '0'))
 	{
 		printf("Error\n");
-		printf("map unclose 3!\n");
+		printf("map unclose !\n");
 		return (0);
 	}
 	if (c == '1' || c == '0')

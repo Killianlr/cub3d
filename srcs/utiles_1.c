@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utiles.c                                           :+:      :+:    :+:   */
+/*   utiles_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:08:13 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:44:29 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:56:33 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 float	get_angle(char c)
 {
 	if (c == 'E')
-		return (EAST);
+		return (M_PI / 2);
 	else if (c == 'S')
-		return (SOUTH);
+		return (0);
 	else if (c == 'W')
-		return (WEST);
+		return (3 * M_PI / 2);
 	else if (c == 'N')
-		return (NORTH);
+		return (M_PI);
 	return (0);
 }
 
@@ -53,11 +53,6 @@ void	find_player_pos(t_p *player, char **map)
 	player->posy = y + 0.5;
 }
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
 void	set_mlx(t_mlx *mlx)
 {
 	mlx->mlx_ptr = mlx_init();
@@ -80,4 +75,20 @@ char	*ft_strndup(char *src, int size)
 	}
 	dest[i] = 0;
 	return (dest);
+}
+
+char	**remove_backn(char **map)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	while (map[i])
+	{
+		len = ft_strlen(map[i]);
+		if (map[i][len - 1] == '\n')
+			map[i][len - 1] = '\0';
+		i++;
+	}
+	return (map);
 }

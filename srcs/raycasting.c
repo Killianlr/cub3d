@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 18:06:35 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:39:00 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,6 @@ float	set_raycasting(t_ray *ray, t_p *player, char **map)
 		perpualldist = (ray->mapy - player->posy
 				+ (1 - ray->stepy) / 2) / ray->diry;
 	return (perpualldist);
-}
-
-void	draw_line(t_g *game, t_ray *ray, int pixx, t_img *img)
-{
-	if (ray->pixy < (RESY / 2) - (RESY / 4) / ray->perpualldist)
-		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->C);
-	else if (ray->pixy > (RESY / 2) + (RESY / 4) / ray->perpualldist)
-		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->F);
-	else
-		my_mlx_pixel_put(img, pixx, ray->pixy, check_texture(ray, game));
 }
 
 void	render_3d(t_g *game, t_mlx *mlx)

@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_data_color.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:06:46 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 18:23:26 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/04 12:52:31 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-int	ft_isws(int c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
 
 int	len_rgb(char *rgb, int check_ws)
 {
@@ -90,15 +83,15 @@ int	set_color(t_pars *p, int r, int g, int b)
 {
 	if (p->elem == 5)
 	{
-		if (p->F)
-			return (error("F already set !"));
-		p->F = create_trgb(255, r, g, b);
+		if (p->f)
+			return (error("f already set !"));
+		p->f = create_trgb(255, r, g, b);
 	}
 	else
 	{
-		if (p->C)
-			return (error("C already set !"));
-		p->C = create_trgb(255, r, g, b);
+		if (p->c)
+			return (error("c already set !"));
+		p->c = create_trgb(255, r, g, b);
 	}
 	return (0);
 }
@@ -114,7 +107,7 @@ int	get_color(char *line, t_pars *p, char c)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (line[i] != c)
-		return (error("Wrong identifiant 1 !"));
+		return (error("Wrong identifiant !"));
 	i++;
 	while (line[i] && line[i] == ' ')
 		i++;

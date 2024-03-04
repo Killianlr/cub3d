@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/03 17:22:50 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:56:39 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@
 
 # define RESX 1200
 # define RESY 900
-# define NORTH M_PI
-# define EAST M_PI / 2
-# define SOUTH 0
-# define WEST 3 * M_PI / 2
-# define ROUGE_NORTH create_trgb(255, 255, 0, 0)
-# define JAUNE_SOUTH create_trgb(255, 255, 255, 0)
-# define VERT_WEST create_trgb(255, 0, 255, 0)
-# define ROSE_EAST create_trgb(255, 255, 0, 255)
-// # define F create_trgb(255, 0, 255, 255)
-// # define C create_trgb(255, 192, 192, 192)
 
 typedef struct s_image
 {
@@ -52,12 +42,12 @@ typedef struct s_image
 
 typedef struct s_pars
 {
-	t_img *no;
-	t_img *so;
-	t_img *we;
-	t_img *ea;
-	int		F;
-	int		C;
+	t_img	*no;
+	t_img	*so;
+	t_img	*we;
+	t_img	*ea;
+	int		f;
+	int		c;
 	char	**map;
 	int		elem;
 	void	*mlx_ptr;
@@ -69,27 +59,6 @@ typedef struct s_pars
 	int		iso;
 }				t_pars;
 
-typedef	struct s_minimap
-{
-	int		posx;
-	int		posy;
-	int		deltax1;
-	int		deltay1;
-	int		deltax2;
-	int		deltay2;
-}				t_mm;
-
-
-
-typedef struct s_mpc
-{
-	int		pos_x;
-	int		pos_y;
-	void	*texture;
-	int		tex_x;
-	int		tex_y;
-}			t_mpc;
-
 typedef struct s_p
 {
 	float	posx;
@@ -98,26 +67,26 @@ typedef struct s_p
 	int		fov;
 	int		fdpx;
 	int		fdpy;
-}			t_p;
+}				t_p;
 
 typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-}			t_mlx;
+}				t_mlx;
 
 typedef struct s_ray
 {
-	double   ratio;
+	double	ratio;
 	float	precision;
-	float		dirx;
-	float		diry;
-	float		mapx;
-	float		mapy;
+	float	dirx;
+	float	diry;
+	float	mapx;
+	float	mapy;
 	float	deltadistx;
 	float	deltadisty;
-	float		stepx;
-	float		stepy;
+	float	stepx;
+	float	stepy;
 	float	sidedistx;
 	float	sidedisty;
 	int		side;
@@ -127,7 +96,7 @@ typedef struct s_ray
 	int		pixy;
 }				t_ray;
 
-typedef	struct s_event
+typedef struct s_event
 {
 	int	mv_fwd;
 	int	mv_bckwd;
@@ -135,7 +104,7 @@ typedef	struct s_event
 	int	mv_right;
 	int	rot_left;
 	int	rot_right;
-}			t_ev;
+}				t_ev;
 
 typedef struct s_game
 {
@@ -148,9 +117,30 @@ typedef struct s_game
 
 /*--------------main.c--------------*/
 
-int	error(char *msg);
+void	init_var_struct(t_g *game);
+void	set_ev(t_g *game);
+int		main(int ac, char **av);
 
-/*--------------collision.c--------------*/
+/*--------------set_data.c--------------*/
+
+int		set_texture_image(t_pars *p);
+int		mem_set_next(t_g *game);
+int		mem_set(t_g *game);
+void	set_texture(t_pars *p);
+
+/*--------------utiles_1.c--------------*/
+
+void	find_player_pos(t_p *player, char **map);
+void	set_mlx(t_mlx *mlx);
+char	*ft_strndup(char *src, int size);
+char	**remove_backn(char **map);
+
+/*--------------utiles_2.c--------------*/
+
+int		collision(t_g *game, float x, float y);
+int		ft_isws(int c);
+int		create_trgb(int t, int r, int g, int b);
+int		error(char *msg);
 
 /*--------------affichage.c--------------*/
 
@@ -158,18 +148,11 @@ int		color_texture(t_img *img, float wallx, t_ray *ray);
 void	create_image(t_img *img, t_mlx *mlx);
 int		my_mlx_pixel_get(t_img *img, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	draw_line(t_g *game, t_ray *ray, int pixx, t_img *img);
 
 /*--------------parsing.c--------------*/
 
 int		parsing(t_pars *p, char *file);
-
-/*--------------parsing_utiles.c--------------*/
-
-char 	*get_id(char *line);
-int		ft_strlen_tab(char **tab);
-int		check_line_space(char *line);
-int		check_file_is_cub(char *file);
-int		ft_strlen_c(char *str, char c);
 
 /*--------------parsing_data_img.c--------------*/
 
@@ -203,34 +186,38 @@ int		ft_end_0(t_g *game);
 int		ft_end_1(t_g *game);
 void	free_tab(char **tab);
 void	free_t_pars(t_pars *p);
+void	free_img(int i, t_pars *p);
 
 /*--------------event.c--------------*/
 
-// int		ft_input(int keysym, t_g *game);
 int		key_pressed(int keysym, t_g *game);
 int		key_release(int keysym, t_g *game);
 int		key_action(t_g *game);
 int		handle_no_event(void *data);
 
-/*--------------map.c--------------*/
+/*--------------utiles_parsing.c--------------*/
 
-char **remove_backn(char **map);
+char	*get_id(char *line);
+int		ft_strlen_tab(char **tab);
+int		check_line_space(char *line);
+int		check_file_is_cub(char *file);
+int		ft_strlen_c(char *str, char c);
 
-/*--------------utiles.c--------------*/
+/*--------------utiles_parsing_map.c--------------*/
 
-void    find_player_pos(t_p *player, char **map);
-int		create_trgb(int t, int r, int g, int b);
-void	set_mlx(t_mlx *mlx);
-char	*ft_strndup(char *src, int size);
+int		same_char_line(char *line, char c);
+int		find_max_len_i(char **map);
+int		check_char(char c);
+void	set_map(char **map, t_pars *p, char *mapy);
+int		check_verti_line(char **map, char c, int j, int i);
 
 /*--------------raycasting.c--------------*/
 
-void    render_3d(t_g *game, t_mlx *mlx);
-
-/*--------------collision.c--------------*/
-
-int		collision(t_g *game, float x, float y);
-void	print_map(char **map);
+int		check_texture(t_ray *ray, t_g *game);
+void	check_dir(t_ray *ray, t_p *player);
+void	check_wall(t_ray *ray, char **map);
+float	set_raycasting(t_ray *ray, t_p *player, char **map);
+void	render_3d(t_g *game, t_mlx *mlx);
 
 /*--------------movement.c--------------*/
 
