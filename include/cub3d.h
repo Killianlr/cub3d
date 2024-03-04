@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:20:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/04 12:56:39 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:23:02 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_ray
 	float	sidedistx;
 	float	sidedisty;
 	int		side;
-	float	perpualldist;
+	float	perpwalldist;
 	int		wally;
 	int		sizewall;
 	int		pixy;

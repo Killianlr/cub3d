@@ -6,7 +6,7 @@
 /*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/04 13:02:27 by fserpe           ###   ########.fr       */
+/*   Updated: 2024/03/04 13:23:02 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_texture(t_ray *ray, t_g *game)
 
 	if (ray->side)
 	{
-		wallx = game->player->posx + ray->perpualldist * ray->dirx;
+		wallx = game->player->posx + ray->perpwalldist * ray->dirx;
 		wallx -= floor(wallx);
 		if (ray->stepy < 0)
 			return (color_texture(game->p->ea, wallx, ray));
@@ -27,7 +27,7 @@ int	check_texture(t_ray *ray, t_g *game)
 	}
 	else
 	{
-		wallx = game->player->posy + ray->perpualldist * ray->diry;
+		wallx = game->player->posy + ray->perpwalldist * ray->diry;
 		wallx -= floor(wallx);
 		if (ray->stepx < 0)
 			return (color_texture(game->p->so, wallx, ray));
@@ -89,7 +89,7 @@ void	check_wall(t_ray *ray, char **map)
 
 float	set_raycasting(t_ray *ray, t_p *player, char **map)
 {
-	float	perpualldist;
+	float	perpwalldist;
 
 	ray->dirx = cos(player->angle) / 2
 		+ cos(player->angle - (M_PI / 2)) * ray->ratio;
@@ -104,12 +104,12 @@ float	set_raycasting(t_ray *ray, t_p *player, char **map)
 	check_dir(ray, player);
 	check_wall(ray, map);
 	if (ray->side == 0)
-		perpualldist = (ray->mapx - player->posx
+		perpwalldist = (ray->mapx - player->posx
 				+ (1 - ray->stepx) / 2) / ray->dirx;
 	else
-		perpualldist = (ray->mapy - player->posy
+		perpwalldist = (ray->mapy - player->posy
 				+ (1 - ray->stepy) / 2) / ray->diry;
-	return (perpualldist);
+	return (perpwalldist);
 }
 
 void	render_3d(t_g *game, t_mlx *mlx)
@@ -124,13 +124,13 @@ void	render_3d(t_g *game, t_mlx *mlx)
 	while (pixx <= RESX)
 	{
 		ray.ratio = (pixx - (RESX / 2)) / (RESX / 2);
-		ray.perpualldist = set_raycasting(&ray, game->player, game->p->map);
+		ray.perpwalldist = set_raycasting(&ray, game->player, game->p->map);
 		ray.pixy = 0;
 		while (ray.pixy <= RESY)
 		{
-			ray.sizewall = ((RESY / 2) + (RESY / 4) / ray.perpualldist)
-				- ((RESY / 2) - (RESY / 4) / ray.perpualldist);
-			ray.wally = ray.pixy - (RESY / 2) + (RESY / 4) / ray.perpualldist;
+			ray.sizewall = ((RESY / 2) + (RESY / 4) / ray.perpwalldist)
+				- ((RESY / 2) - (RESY / 4) / ray.perpwalldist);
+			ray.wally = ray.pixy - (RESY / 2) + (RESY / 4) / ray.perpwalldist;
 			draw_line(game, &ray, pixx, &img);
 			ray.pixy++;
 		}

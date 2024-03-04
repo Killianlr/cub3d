@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   affichage.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:02:03 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/04 12:57:04 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:32:29 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	color_texture(t_img *img, float wallx, t_ray *ray)
 
 void	draw_line(t_g *game, t_ray *ray, int pixx, t_img *img)
 {
-	if (ray->pixy < (RESY / 2) - (RESY / 4) / ray->perpualldist)
+	if (ray->pixy < (RESY / 2) - (RESY / 4) / ray->perpwalldist)
 		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->c);
-	else if (ray->pixy > (RESY / 2) + (RESY / 4) / ray->perpualldist)
+	else if (ray->pixy > (RESY / 2) + (RESY / 4) / ray->perpwalldist)
 		my_mlx_pixel_put(img, pixx, ray->pixy, game->p->f);
 	else
 		my_mlx_pixel_put(img, pixx, ray->pixy, check_texture(ray, game));
