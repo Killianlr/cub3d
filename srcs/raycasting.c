@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:06:51 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/04 12:39:00 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:02:27 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	check_texture(t_ray *ray, t_g *game)
 		wallx = game->player->posx + ray->perpualldist * ray->dirx;
 		wallx -= floor(wallx);
 		if (ray->stepy < 0)
-			return (color_texture(game->p->we, wallx, ray));
-		else
 			return (color_texture(game->p->ea, wallx, ray));
+		else
+			return (color_texture(game->p->we, wallx, ray));
 	}
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utiles_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fserpe <fserpe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 12:08:13 by kle-rest          #+#    #+#             */
-/*   Updated: 2024/03/04 12:56:33 by kle-rest         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:01:21 by fserpe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 float	get_angle(char c)
 {
-	if (c == 'E')
+	if (c == 'W')
 		return (M_PI / 2);
 	else if (c == 'S')
 		return (0);
-	else if (c == 'W')
+	else if (c == 'E')
 		return (3 * M_PI / 2);
 	else if (c == 'N')
 		return (M_PI);
