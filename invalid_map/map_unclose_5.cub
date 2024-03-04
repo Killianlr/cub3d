@@ -1,0 +1,13 @@
+F       100,10,123
+NO ./texture/EST.xpm
+WE ./texture/OUEST.xpm
+C 42,42,42
+SO ./texture/OUEST.xpm
+EA ./texture/OUEST.xpm                                                              
+
+                 1
+    111111111111101  
+    100000001100001
+    1100110N1011001
+    111101111111111
+       1
