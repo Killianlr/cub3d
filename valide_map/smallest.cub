@@ -1,7 +1,7 @@
-NO ./texture/NORD.xpm
-SO ./texture/SUD.xpm
-WE ./texture/OUEST.xpm
-EA ./texture/EST.xpm
+NO ./texture/fserpe.xpm
+SO ./texture/eestala.xpm
+WE ./texture/rdantec.xpm
+EA ./texture/fserpe.xpm
 
 F 107,87,49
 C 187,174,152
